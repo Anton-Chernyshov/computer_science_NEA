@@ -1,1 +1,6 @@
-print("".join([chr(i) for i  in [72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33]]))
+
+import base64
+(exec(base64.standard_b64decode(b'cHJpbnQoIiIuam9pbihbY2hyKGkpIGZvciBpICBpbiBbNzIsIDEwMSwgMTA4LCAxMDgsIDExMSwgMzIsIDExOSwgMTExLCAxMTQsIDEwOCwgMTAwLCAzM11dKSk=')))
+
+
+
