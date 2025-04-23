@@ -1,6 +1,0 @@
-
-import base64
-(exec(base64.standard_b64decode(b'cHJpbnQoIiIuam9pbihbY2hyKGkpIGZvciBpICBpbiBbNzIsIDEwMSwgMTA4LCAxMDgsIDExMSwgMzIsIDExOSwgMTExLCAxMTQsIDEwOCwgMTAwLCAzM11dKSk=')))
-
-
-
