@@ -6,9 +6,9 @@ import java.util.Timer;
 
 public class MazeGenerator extends JPanel {
     // Constants for grid and cell size
-    private static final int CELL_SIZE = 25;
-    private static final int GRID_WIDTH = 40;
-    private static final int GRID_HEIGHT = 40;
+    private static final int CELL_SIZE = 30;
+    private static final int GRID_WIDTH = 20;
+    private static final int GRID_HEIGHT = 20;
 
     // Maze grid and walls list
     private Cell[][] grid = new Cell[GRID_HEIGHT][GRID_WIDTH];
@@ -61,7 +61,7 @@ public class MazeGenerator extends JPanel {
     // Step function for generating the maze
     private void step() {
         if (walls.isEmpty()) {
-            solveMaze();  // Solve the maze once generation is complete
+             // Solve the maze once generation is complete
             generatingMaze = false; // Stop maze generation once complete
             repaint();
             return;
@@ -109,7 +109,7 @@ public class MazeGenerator extends JPanel {
     }
 
     // Solve the maze using BFS
-    private void solveMaze() {
+    public void solveMaze() {
         Queue<Point> queue = new LinkedList<>();
         Map<Point, Point> cameFrom = new HashMap<>();
         Set<Point> visited = new HashSet<>();
@@ -141,7 +141,6 @@ public class MazeGenerator extends JPanel {
                 }
             }
         }
-
         // Reconstruct the path
         Point current = new Point(endX, endY);
         while (current != null) {
@@ -150,7 +149,35 @@ public class MazeGenerator extends JPanel {
         }
         Collections.reverse(solutionPath);
     }
-
+    public void regenerate() {
+        timer.cancel(); // Stop current timer
+        solutionPath.clear();
+        walls.clear();
+    
+        // Re-initialize the grid
+        for (int y = 0; y < GRID_HEIGHT; y++) {
+            for (int x = 0; x < GRID_WIDTH; x++) {
+                grid[y][x] = new Cell(x, y);
+            }
+        }
+    
+        // Re-initialize walls and start generation
+        grid[startY][startX].visited = true;
+        addWalls(startX, startY);
+        generatingMaze = true;
+    
+        // Restart timer
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (generatingMaze) {
+                    step();
+                }
+            }
+        }, 0, 1);  // 1ms interval for speed
+    }
+    
     // Check if there's a wall between two cells
     private boolean hasWall(int x, int y, Point neighbor) {
         int nx = neighbor.x, ny = neighbor.y;
@@ -205,10 +232,34 @@ public class MazeGenerator extends JPanel {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Prim's Maze Generator and Solver");
         MazeGenerator mazeGenerator = new MazeGenerator();
-        frame.add(mazeGenerator);
+        
+        JButton regenerateButton = new JButton("Regenerate Maze");
+        regenerateButton.addActionListener(e -> mazeGenerator.regenerate());
+    
+        JButton solveButton = new JButton("Solve Maze");
+        solveButton.addActionListener(e -> {
+            if (!mazeGenerator.generatingMaze) {
+                mazeGenerator.solveMaze();
+                mazeGenerator.repaint();
+            } else {
+                JOptionPane.showMessageDialog(null, "Maze is still generating. Please wait.");
+            }
+        });
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(mazeGenerator, BorderLayout.CENTER);
+        JPanel sidePanel = new JPanel();
+        panel.add(sidePanel, BorderLayout.EAST);
+        sidePanel.add(solveButton, BorderLayout.NORTH);
+        sidePanel.add(regenerateButton, BorderLayout.NORTH);
+        JSlider width = new JSlider();
+        sidePanel.add(width, BorderLayout.CENTER);
+        frame.add(panel);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        
     }
 
     // Cell class representing each cell in the grid
