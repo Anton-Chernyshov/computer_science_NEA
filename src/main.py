@@ -4,7 +4,6 @@ from collections import deque
 import sys
 
 seed = random.randrange(sys.maxsize)
-seed = 0x307f2127fa21608e
 print(hex(seed))
 
 random.seed(seed)
