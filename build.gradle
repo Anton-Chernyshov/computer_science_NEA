@@ -1,0 +1,40 @@
+plugins {
+    id 'application'
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1' // or latest
+}
+def platform = 'win'
+group = 'org.anton.nea'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(24)
+    }
+}
+
+def javafxVersion = '24.0.2'
+
+dependencies {
+    implementation "org.openjfx:javafx-base:$javafxVersion:$platform"
+    implementation "org.openjfx:javafx-graphics:$javafxVersion:$platform"
+    implementation "org.openjfx:javafx-controls:$javafxVersion:$platform"
+    implementation "org.openjfx:javafx-fxml:$javafxVersion:$platform"
+}
+application {
+    mainClass.set('org.anton.nea.Main')
+    applicationDefaultJvmArgs = [
+            '--module-path', configurations.runtimeClasspath.asPath,
+            '--add-modules', 'javafx.controls,javafx.fxml'
+    ]
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += [
+            '--module-path', configurations.runtimeClasspath.asPath,
+            '--add-modules', 'javafx.controls,javafx.fxml'
+    ]
+}

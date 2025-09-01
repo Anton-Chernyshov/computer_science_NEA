@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane minHeight="150.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.anton.nea.controllers.ErrorController">
+
+    <!-- Title Label -->
+    <Label text="A fatal exception has occurred :("
+           AnchorPane.topAnchor="10.0"
+           AnchorPane.leftAnchor="10.0"
+           AnchorPane.rightAnchor="10.0"/>
+
+    <!-- Error Message TextArea -->
+    <TextArea fx:id="errorMessage"
+              text="Error Message"
+              wrapText="true"
+              editable="false"
+              AnchorPane.topAnchor="40.0"
+              AnchorPane.leftAnchor="10.0"
+              AnchorPane.rightAnchor="10.0"
+              prefHeight="60.0"/>
+
+    <!-- Error Trace TextArea -->
+    <TextArea fx:id="errorTrace"
+              text="Error Trace"
+              wrapText="true"
+              editable="false"
+              AnchorPane.topAnchor="110.0"
+              AnchorPane.leftAnchor="10.0"
+              AnchorPane.rightAnchor="10.0"
+              AnchorPane.bottomAnchor="50.0"/>
+
+    <!-- Buttons aligned at bottom center -->
+    <HBox spacing="15"
+          AnchorPane.bottomAnchor="10.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0"
+          alignment="center">
+        <Button text="Ok" prefWidth="70.0" onAction="#close"/>
+        <Button text="Copy" prefWidth="70.0" onAction="#copy"/>
+        <Button text="Terminate" prefWidth="70.0" onAction="#terminate"/>
+    </HBox>
+
+</AnchorPane>

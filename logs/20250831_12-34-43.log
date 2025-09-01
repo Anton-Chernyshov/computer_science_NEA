@@ -1,0 +1,33 @@
+javafx.fxml.LoadException: 
+/C:/Users/Anton/IdeaProjects/NEA/build/resources/main/org/anton/nea/main.fxml:44
+
+	at javafx.fxml@24.0.2/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2692)
+	at javafx.fxml@24.0.2/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2670)
+	at javafx.fxml@24.0.2/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2533)
+	at javafx.fxml@24.0.2/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2503)
+	at org.anton.nea.controllers.MainController.loadMain(MainController.java:31)
+	at org.anton.nea.controllers.SplashController.lambda$loadSplash$0(SplashController.java:40)
+	at javafx.graphics@24.0.2/javafx.animation.Animation.runHandler(Animation.java:1147)
+	at javafx.graphics@24.0.2/javafx.animation.Animation.finished(Animation.java:1141)
+	at javafx.graphics@24.0.2/javafx.animation.AnimationAccessorImpl.finished(AnimationAccessorImpl.java:49)
+	at javafx.graphics@24.0.2/com.sun.scenario.animation.shared.SingleLoopClipEnvelope.timePulse(SingleLoopClipEnvelope.java:107)
+	at javafx.graphics@24.0.2/javafx.animation.Animation.doTimePulse(Animation.java:1234)
+	at javafx.graphics@24.0.2/javafx.animation.Animation$1.timePulse(Animation.java:190)
+	at javafx.graphics@24.0.2/com.sun.scenario.animation.AbstractPrimaryTimer.timePulseImpl(AbstractPrimaryTimer.java:316)
+	at javafx.graphics@24.0.2/com.sun.scenario.animation.AbstractPrimaryTimer$MainLoop.run(AbstractPrimaryTimer.java:239)
+	at javafx.graphics@24.0.2/com.sun.javafx.tk.quantum.QuantumToolkit.pulse(QuantumToolkit.java:588)
+	at javafx.graphics@24.0.2/com.sun.javafx.tk.quantum.QuantumToolkit.pulse(QuantumToolkit.java:572)
+	at javafx.graphics@24.0.2/com.sun.javafx.tk.quantum.QuantumToolkit.pulseFromQueue(QuantumToolkit.java:565)
+	at javafx.graphics@24.0.2/com.sun.javafx.tk.quantum.QuantumToolkit.lambda$runToolkit$6(QuantumToolkit.java:346)
+	at javafx.graphics@24.0.2/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@24.0.2/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@24.0.2/com.sun.glass.ui.win.WinApplication.lambda$runLoop$0(WinApplication.java:168)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+Caused by: java.lang.IllegalArgumentException: Unable to coerce  12  to class javafx.scene.Node.
+	at javafx.fxml@24.0.2/com.sun.javafx.fxml.BeanAdapter.coerce(BeanAdapter.java:487)
+	at javafx.fxml@24.0.2/javafx.fxml.FXMLLoader$ValueElement.getListValue(FXMLLoader.java:807)
+	at javafx.fxml@24.0.2/javafx.fxml.FXMLLoader$ValueElement.processCharacters(FXMLLoader.java:879)
+	at javafx.fxml@24.0.2/javafx.fxml.FXMLLoader.processCharacters(FXMLLoader.java:2952)
+	at javafx.fxml@24.0.2/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2629)
+	... 20 more
+
