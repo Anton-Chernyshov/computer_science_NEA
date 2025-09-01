@@ -1,5 +1,5 @@
 javafx.fxml.LoadException: 
-/C:/Users/Anton/IdeaProjects/NEA/build/resources/main/org/anton/nea/main.fxml:44
+/C:/Users/Anton/IdeaProjects/NEA/build/resources/main/org/anton/nea/main.fxml:44 23iuyrtgiuwerertygherguisergbiewr
 
 	at javafx.fxml@24.0.2/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2692)
 	at javafx.fxml@24.0.2/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2670)
