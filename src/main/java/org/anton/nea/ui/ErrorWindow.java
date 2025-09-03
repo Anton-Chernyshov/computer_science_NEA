@@ -40,7 +40,7 @@ public class ErrorWindow {
             new java.io.File("logs/").mkdirs(); // create folder if missing
             try (PrintWriter pw = new PrintWriter(new FileWriter( "logs/" + timestamp + ".log", true))) {
                 error.printStackTrace(pw);  // write stack trace to file
-                pw.println();            // optional: add an empty line
+                pw.println();
             } catch (Exception io) {
                 io.printStackTrace();    // fallback to console
             }

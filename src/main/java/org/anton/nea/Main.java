@@ -1,10 +1,14 @@
 package org.anton.nea;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
 import org.anton.nea.controllers.MainController;
 import org.anton.nea.controllers.SplashController;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+/**
+ * Actual entry point for the program. The program starts by calling the splash controller, then running the main window
+ */
 public class Main extends Application {
 
     @Override

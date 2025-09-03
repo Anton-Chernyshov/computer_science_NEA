@@ -1,0 +1,127 @@
+/* modern-light-neutral.css */
+
+/* Root background & text */
+.root {
+    -fx-background-color: #fafafa; /* very light gray */
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+    -fx-text-fill: #1a1a1a;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #222222;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #f0f0f0; /* neutral light gray */
+    -fx-text-fill: #1a1a1a;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.08) , 3,0,0,1 );
+    -fx-border-color: #d8d8d8;
+    -fx-border-radius: 8;
+}
+
+.button:hover {
+    -fx-background-color: #e8e8e8;
+}
+
+.button:pressed {
+    -fx-background-color: #dcdcdc;
+}
+
+/* Text fields & input */
+.text-field, .password-field {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
+    -fx-prompt-text-fill: #7d7d7d;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #d8d8d8;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #5a5a5a; /* subtle dark accent */
+}
+
+/* ComboBox / ChoiceBox */
+.combo-box, .choice-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d8d8d8;
+    -fx-border-radius: 6;
+    -fx-text-fill: #000000;
+    -fx-background-radius: 6;
+}
+
+.combo-box:hover, .choice-box:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+/* ListView & TableView */
+.list-view, .table-view {
+    -fx-background-color: #ffffff;
+    -fx-control-inner-background: #ffffff;
+    -fx-cell-hover-color: #f5f5f5;
+    -fx-text-fill: #1a1a1a;
+}
+
+/* ScrollBar */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #cccccc;
+    -fx-background-radius: 6;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #888888; /* subtle hover */
+}
+
+/* Progress bars, sliders, etc. */
+.progress-bar .bar,
+.slider .track {
+    -fx-background-color: #888888;
+}
+
+/* ColorPicker */
+.color-picker {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d8d8d8;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #000000;
+}
+
+.color-picker:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+.color-picker:focused {
+    -fx-border-color: #5a5a5a;
+}
+
+/* Popup panel of ColorPicker */
+.color-palette {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d8d8d8;
+}
+
+/* SplitPane divider */
+.split-pane:horizontal > .split-pane-divider {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: transparent;
+    -fx-padding: 0 3 0 3;
+}
+
+.split-pane:vertical > .split-pane-divider {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: transparent;
+    -fx-padding: 3 0 3 0;
+}
+
+.split-pane-divider:hover {
+    -fx-background-color: #cccccc;
+}

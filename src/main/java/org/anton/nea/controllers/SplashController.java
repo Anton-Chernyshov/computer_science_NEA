@@ -1,5 +1,7 @@
 package org.anton.nea.controllers;
 
+import org.anton.nea.ui.ErrorWindow;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +14,7 @@ import javafx.stage.Stage;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import java.io.IOException;
-import org.anton.nea.ui.ErrorWindow;
+
 
 public class SplashController {
     private final Stage stage;

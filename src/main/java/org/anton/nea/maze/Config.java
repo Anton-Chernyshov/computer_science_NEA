@@ -1,9 +1,9 @@
 package org.anton.nea.maze;
 
-import javafx.application.Platform;
-import javafx.scene.paint.Color;
 import org.anton.nea.ui.ErrorWindow;
 
+import javafx.application.Platform;
+import javafx.scene.paint.Color;
 import java.io.InputStream;
 import java.util.Properties;
 

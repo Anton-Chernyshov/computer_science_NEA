@@ -5,8 +5,7 @@ build/
 !**/src/test/**/build/
 ### Anton added these ###
 #### this is the build
-MYNEA/
-logs/
+**/logs/**
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
