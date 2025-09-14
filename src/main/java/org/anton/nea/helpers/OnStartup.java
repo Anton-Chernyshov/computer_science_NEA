@@ -1,12 +1,9 @@
 package org.anton.nea.helpers;
 
 import javafx.scene.Scene;
-import org.anton.nea.controllers.ErrorController;
-import org.anton.nea.ui.CursorHandler;
 import org.anton.nea.ui.ErrorWindow;
 
 import java.util.Objects;
-import java.lang.Object;
 import java.io.*;
 
 public class OnStartup {

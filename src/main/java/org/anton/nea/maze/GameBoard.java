@@ -1,16 +1,15 @@
 package org.anton.nea.maze;
 
-import org.anton.nea.helpers.Color2;
-import org.anton.nea.helpers.Point;
+import org.anton.nea.util.Color2;
+import org.anton.nea.util.Point2;
 import org.anton.nea.maze.algos.gen.MazeGenerator;
+import org.anton.nea.maze.algos.solve.Dijkstra;
 import org.anton.nea.maze.algos.solve.MazeSolver;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import java.util.List;
-import java.util.Random;
-import java.util.Stack;
 
 public class GameBoard extends Canvas {
     /** will always be 40 */
@@ -20,9 +19,7 @@ public class GameBoard extends Canvas {
     /**The actual maze cells, represented as a 2d array*/
     Cell[][] cellRepr;
     /** Cellsize is 20*/
-    private final int cellSize;
-
-
+    private final int cellSize; // go pico then, insane aura
     /**
      * fuckass class that is the bane of my life. JKJK lol
      * <p>This class is where the game occurs, its a custom canvas subclass that does my special stuff, because i decided to do this
@@ -37,10 +34,11 @@ public class GameBoard extends Canvas {
         the reason i have it all set out  AS IF I was gonna use this constructor with parameters is because i was,
          but then remembered that i was actually loading this using FXML, so i kinda dont need them.. ALSO this makes it easy asf to change stuff so im keeping it yay!!
         */
-        this.rows = 40; // cells
-        this.cols = 70;
-        this.cellSize = 20; // px
+        this.rows = 20; // cells //20
+        this.cols = 35;  //70
+        this.cellSize = 40; // px //40
         this.cellRepr = new Cell[rows][cols];
+
     }
 
     /**
@@ -125,11 +123,16 @@ public class GameBoard extends Canvas {
      * @param start starting point of the grid, ACCORDING TO MY (col, row) grid NOT the canvas (x,y)
      * @param end end point, same grid as above
      */
-    public void drawPath(Point start, Point end) {
+    public void drawPath(Point2 start, Point2 end) {
 
 
     }
 
+    public void drawPixel(int x, int y, Color color){
+        GraphicsContext gc = getGraphicsContext2D();
+        gc.setFill(color);
+        gc.fillRect(x, y, 1, 1);
+    }
 
     public void drawMaze(MazeGenerator generator, long seed) {
         generator.generateMaze(this, seed);
@@ -147,11 +150,11 @@ public class GameBoard extends Canvas {
         this.cellRepr[this.cellRepr.length - 1][this.cellRepr[this.cellRepr.length - 1].length -1].draw(getGraphicsContext2D(), endColor);
     }
 
-    public void showSolvedMaze(Point start, Point end, MazeSolver solver){
+    public void showSolvedMaze(MazeSolver solver, Color2 colors){
         List<Cell> solution = solver.solve(this.cellRepr, this.rows, this.cols);
-        for (Cell cell : solution) {
-            cell.draw(getGraphicsContext2D(), new Color2(Color.RED, Color.WHITE));
-        }
+        Dijkstra mazeSolver = (Dijkstra) solver;
+        AnimationRenderer.showSolvingAnimation(this, mazeSolver);
+
 
     }
 

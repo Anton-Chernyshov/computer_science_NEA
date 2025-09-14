@@ -1,9 +1,8 @@
 package org.anton.nea.maze;
 
-import org.anton.nea.helpers.Color2;
+import org.anton.nea.util.Color2;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class Cell {
     private int cellValue = 0x0;
@@ -43,10 +42,10 @@ public class Cell {
         gc.setLineWidth(2);
         double half = gc.getLineWidth() / 2.0;
 
-// Fill the inside
+// fill the inside
         gc.setFill(colors.ColorB);
         gc.fillRect(x, y, size, size);
-// Stroke walls
+// strokin my walls
         gc.setStroke(colors.ColorA);
 
         if (hasUp())    gc.strokeLine(x + half, y + half, x + size - half, y + half);
@@ -55,9 +54,10 @@ public class Cell {
         if (hasRight()) gc.strokeLine(x + size - half, y + half, x + size - half, y + size - half);
     }
     public int getX(){return this.x;}
-    public int getRow(){return this.x / this.size;}
-    public int getCol(){return this.y / this.size;}
+    public int getRow(){return this.y / this.size;}
+    public int getCol(){return this.x / this.size;}
     public int getY(){return this.y;}
     public int getSize(){return this.size;}
 
 }
+

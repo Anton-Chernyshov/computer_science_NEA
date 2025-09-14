@@ -12,13 +12,11 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.anton.nea.controllers.ErrorController">
 
-    <!-- Title Label -->
     <Label text="A fatal exception has occurred :("
            AnchorPane.topAnchor="10.0"
            AnchorPane.leftAnchor="10.0"
            AnchorPane.rightAnchor="10.0"/>
 
-    <!-- Error Message TextArea -->
     <TextArea fx:id="errorMessage"
               text="Error Message"
               wrapText="true"
@@ -28,7 +26,6 @@
               AnchorPane.rightAnchor="10.0"
               prefHeight="60.0"/>
 
-    <!-- Error Trace TextArea -->
     <TextArea fx:id="errorTrace"
               text="Error Trace"
               wrapText="true"

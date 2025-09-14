@@ -2,22 +2,20 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import org.anton.nea.maze.GameBoard?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
-<?import javafx.collections.FXCollections?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.layout.StackPane?>
 <?import java.lang.String?>
 
@@ -63,6 +61,16 @@
                     </children>
                 </Pane>
                 <Pane layoutY="700.0" prefHeight="300.0" prefWidth="300.0">
+                    <ChoiceBox layoutX="20.0" layoutY="1.0" prefWidth="150.0" fx:id="solveAlgoChoiceBox" value="Dijkstra">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Dijkstra"/>
+                            <String fx:value="Astar"/>
+                            <String fx:value="BFS"/>
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+                    <Button layoutX="20.0" layoutY="40.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="260.0" text="Solve Maze" onAction="#handleSolveButtonAction" />
                 </Pane>
                 <Pane layoutY="350.0" prefHeight="300.0" prefWidth="300.0" />
             </children>

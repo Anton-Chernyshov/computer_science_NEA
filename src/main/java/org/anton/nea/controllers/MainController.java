@@ -2,11 +2,12 @@ package org.anton.nea.controllers;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import org.anton.nea.helpers.Color2;
+import org.anton.nea.util.Color2;
 import org.anton.nea.helpers.OnStartup;
 import org.anton.nea.maze.Config;
 import org.anton.nea.maze.algos.gen.*;
-import org.anton.nea.ui.CursorHandler;
+import org.anton.nea.maze.algos.solve.MazeSolver;
+import org.anton.nea.io.CursorHandler;
 import org.anton.nea.ui.ErrorWindow;
 import org.anton.nea.maze.GameBoard;
 
@@ -75,6 +76,7 @@ public class MainController {
     @FXML private ColorPicker colorPickerBackground;
     @FXML private TextField seedValue;
     @FXML private ChoiceBox<String> algorithmChoiceBox;
+    @FXML private ChoiceBox<String> solveAlgoChoiceBox;
     // BUTTONS vvvvvv
     /**
      * Mapping string to generator object type
@@ -84,6 +86,11 @@ public class MainController {
             "Antons", Antons::new,
             "RecursiveBacktrack", RecursiveBacktrack::new
     );
+    private static final Map<String, Supplier<MazeSolver>> MazeSolver = Map.of(
+      "Astar", org.anton.nea.maze.algos.solve.Astar::new,
+        "Dijkstra", org.anton.nea.maze.algos.solve.Dijkstra::new,
+        "BFS", org.anton.nea.maze.algos.solve.BFS::new
+    );
     /**
      * little helper function to convert string to algorithm type
      * @param algoString output from my choicebox
@@ -92,6 +99,18 @@ public class MainController {
         try {
             Supplier<MazeGenerator> generator = MazeGenerator.get(algoString);
             if (generator == null) {
+                throw new IllegalArgumentException("Unknown algorithm: " + algoString + "\n How did this happen???");
+            }
+            return generator.get();
+        } catch (Exception e) {
+            ErrorWindow.show(e);
+            return null;
+        }
+    }
+    private MazeSolver stringToAlgoGenerator(String algoString){
+        try{
+            Supplier<MazeSolver> generator = MazeSolver.get(algoString);
+            if (generator == null){
                 throw new IllegalArgumentException("Unknown algorithm: " + algoString + "\n How did this happen???");
             }
             return generator.get();
@@ -119,6 +138,12 @@ public class MainController {
     private void handleGenerateNewButtonAction(ActionEvent event) {
         handleGenerateRandomSeed(event);
         handleRenderButtonAction(event);
+    }
+    @FXML
+    private void handleSolveButtonAction(ActionEvent event) {
+
+        gameCanvas.showSolvedMaze(
+                Objects.requireNonNull(stringToAlgoGenerator(solveAlgoChoiceBox.getValue())), new Color2(colorPickerWall.getValue(), colorPickerBackground.getValue()) );
     }
 
 }

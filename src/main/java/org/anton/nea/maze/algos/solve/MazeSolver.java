@@ -6,4 +6,11 @@ import java.util.List;
 
 public abstract class MazeSolver {
     public abstract List<Cell> solve(Cell[][] grid, int rows, int cols);
+
+    /**
+     * should return the order of explored cells, exposed for animation
+     * @return list of cells in order they were explored
+     */
+    public abstract List<Cell> getExploredOrder();
+
 }

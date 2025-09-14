@@ -65,4 +65,8 @@ public class BFS extends MazeSolver {
 
         return neighbors;
     }
+    @Override
+    public List<Cell> getExploredOrder() {
+        return null; // right now i cba but i will do it later so you can see the animation.
+    }
 }

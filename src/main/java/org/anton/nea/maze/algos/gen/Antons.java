@@ -17,7 +17,5 @@ public class Antons extends MazeGenerator {
         int cellSize = gameBoard.getCellSize();
 
 
-
-
     }
 }

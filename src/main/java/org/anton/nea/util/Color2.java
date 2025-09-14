@@ -1,4 +1,4 @@
-package org.anton.nea.helpers;
+package org.anton.nea.util;
 
 import javafx.scene.paint.Color;
 

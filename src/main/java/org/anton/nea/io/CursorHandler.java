@@ -1,15 +1,13 @@
-package org.anton.nea.ui;
+package org.anton.nea.io;
 
-import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.anton.nea.maze.GameBoard;
-import org.anton.nea.controllers.MainController;
+import org.anton.nea.ui.Timer;
+
 public class CursorHandler {
     private static Timer timer;
     public static void cursorListener(GameBoard gameCanvas, Timer t, ColorPicker colorPickerWall) {
@@ -37,7 +35,7 @@ public class CursorHandler {
      * @param color
      */
     private static void doStuffBasedOnColor(Color color, ColorPicker colorPickerWall) {
-        System.out.println(color);
+        //System.out.println(color);
         // colors are:
         // RED - STOP
         // GREEN - RESET -> START

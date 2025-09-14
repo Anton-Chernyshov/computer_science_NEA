@@ -3,12 +3,25 @@ plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '8.1.1' // or latest
 }
-def platform = 'win'
+def osName = System.getProperty("os.name").toLowerCase()
+def platform
+if (osName.contains("win")) {
+    platform = "win"
+} else if (osName.contains("mac")) {
+    platform = "mac"
+} else {
+    platform = "linux"
+}
+
+def javafxVersion = "24.0.2"
+
+
 group = 'org.anton.nea'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 java {
     toolchain {
@@ -16,15 +29,15 @@ java {
     }
 }
 
-def javafxVersion = '24.0.2'
 
 dependencies {
     implementation "org.openjfx:javafx-base:$javafxVersion:$platform"
     implementation "org.openjfx:javafx-graphics:$javafxVersion:$platform"
     implementation "org.openjfx:javafx-controls:$javafxVersion:$platform"
     implementation "org.openjfx:javafx-fxml:$javafxVersion:$platform"
+    implementation 'com.github.WilliamAHartman:Jamepad:1.4.0'
 }
-application {
+    application {
     mainClass.set('org.anton.nea.Main')
     applicationDefaultJvmArgs = [
             '--module-path', configurations.runtimeClasspath.asPath,
