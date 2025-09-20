@@ -6,37 +6,33 @@ import org.anton.nea.util.Vector2;
 import java.lang.Math;
 public class Player {
     private final GameBoard gameboard;
-    private int x;
-    private int y;
-    private int rotation; // in degrees, 0 is up, 90 is right, etc.
+    private double x;
+    private double y;
+    private double rotation; // in degrees, 0 is up, 90 is right, etc.
+
     private Color[][] characterDefinition = {
-            {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-            {null, null, null, null, null, null, null, Color.BLACK, null, null, null, null, null, null, null},
-            {null, null, null, null, null, null, Color.BLACK, Color.BLACK, Color.BLACK, null, null, null, null, null, null},
-            {null, null, null, null, null, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, null, null, null, null, null},
-            {null, null, null, null, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, null, null, null, null},
-            {null, null, null, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, null, null, null},
-            {null, null, null, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, null, null, null},
-            {null, null, null, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, null, null, null},
-            {null, null, null, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, null, null, null},
-            {null, null, null, null, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, null, null, null, null},
-            {null, null, null, null, null, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, null, null, null, null, null},
-            {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-            {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-            {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-            {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+            {null, null, null, null, null, null, null},
+            {null, null, null, Color.BLACK, null, null, null},
+            {null, null, Color.BLACK, Color.BLACK, Color.BLACK, null, null},
+            {null, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK , null},
+            {Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK},
+            {null, null, Color.BLACK, Color.BLACK, Color.BLACK, null, null},
+            {null, null, null, null, null, null, null},
     };
     private int[][] characterLocations = {
-            {1, 7},
-            {2, 6}, {2, 7}, {2, 8},
-            {3, 5}, {3, 6}, {3, 7}, {3, 8}, {3, 9},
-            {4, 4}, {4, 5}, {4, 6}, {4, 7}, {4, 8}, {4, 9}, {4, 10},
-            '[
+            {1, 3},
+            {2, 2}, {2, 3}, {2, 4},
+            {3, 1}, {3, 2}, {3, 3}, {3, 4}, {3, 5},
+            {4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4}, {4, 5}, {4, 6},
+            {5, 2}, {5, 3}, {5, 4}, {5, 5}
+    };
 
-
-            '[;
-    }
-
+    /**
+     * generates a player
+     * @param gameboard
+     * @param x the RAW X COORD ON THE CANVAS
+     * @param y the Y coord on the canvas
+     */
     public Player(GameBoard gameboard, int x, int y){
         this.gameboard = gameboard;
         this.x = x;
@@ -46,9 +42,9 @@ public class Player {
     public void setGraphicObject(Color[][] characterDefinition){
         this.characterDefinition = characterDefinition;
     }
-    public int getX() {return x;}
-    public int getY() {return y;}
-    public int getRotation() {return rotation;}
+    public double getX() {return x;}
+    public double getY() {return y;}
+    public double getRotation() {return rotation;}
 
 
     /**
@@ -73,11 +69,11 @@ public class Player {
      *
      * @param rotation in degrees clockwise from the vertical
      */
-    private void setRotation(int rotation) {
+    private void setRotation(double rotation) {
         /* now because i did this a *bit* weirdly, i need to convert the rotation
         from clockwise from vert to anticlock from horizontal */
 
-        int phi = 90-rotation;
+        double phi = 90-rotation;
         if (phi < 0) {phi = 360 + phi;}
         double theta = Math.toRadians(phi);
         double[][] rotmat = HelperFuncs.getRotationalMatrix(theta);
@@ -89,29 +85,36 @@ public class Player {
         if (rotation < 0) rotation = 0;
         if (rotation > 360) rotation = 360;
         this.rotation = rotation;
+
+
     }
     /**
      * player is represented as an arrow on the board
      * this just draws him at his X, Y
      */
     public void updatePlayer(){
-        // draw player on the board
+        gameboard.updateGrid(gameboard.getColor());
+    // draw player on the board
         int cellSize = this.gameboard.getCellSize();
         for (int i = 0; i < characterDefinition.length; i++) {
             for (int j = 0; j < characterDefinition[i].length; j++) {
-                gameboard.drawPixel(x+j, y+i, characterDefinition[i][j]);
+                if (characterDefinition[i][j] != null) {                gameboard.drawPixel((int)(x+j), (int)(y+i), characterDefinition[i][j]);
+                }
 
             }
         }
     }
     public void moveToPoint(Point2 point){
+
         setX(point.x);
         setY(point.y);
         updatePlayer();
     }
     public void moveVector(Vector2 vector){
-        setX(x + vector.x);
-        setY(y + vector.y);
+        x += vector.x;
+        y += vector.y;
+        setX( (int) (x) );
+        setY((int)(y));
         updatePlayer();
     }
 
@@ -120,4 +123,3 @@ public class Player {
         updatePlayer();
     }
 }
-// 15x15 arrow

@@ -35,13 +35,14 @@ dependencies {
     implementation "org.openjfx:javafx-graphics:$javafxVersion:$platform"
     implementation "org.openjfx:javafx-controls:$javafxVersion:$platform"
     implementation "org.openjfx:javafx-fxml:$javafxVersion:$platform"
+    implementation "org.openjfx:javafx-media:$javafxVersion:$platform"
     implementation 'com.github.WilliamAHartman:Jamepad:1.4.0'
 }
     application {
     mainClass.set('org.anton.nea.Main')
     applicationDefaultJvmArgs = [
             '--module-path', configurations.runtimeClasspath.asPath,
-            '--add-modules', 'javafx.controls,javafx.fxml'
+            '--add-modules', 'javafx.controls,javafx.fxml,javafx.media'
     ]
 }
 

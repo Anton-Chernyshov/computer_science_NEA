@@ -5,20 +5,18 @@ import java.util.*;
 
 public class Dijkstra extends MazeSolver {
 
-    // stores cells in the order they were explored (for animation)
+    // stores cells in the order they were explored (to animate with)
     private final List<Cell> exploredOrder = new ArrayList<>();
 
     @Override
     public List<Cell> solve(Cell[][] grid, int rows, int cols) {
+        exploredOrder.clear();
         Cell start = grid[0][0];
         Cell goal = grid[rows - 1][cols - 1];
-
-        // distance map
         Map<Cell, Integer> dist = new HashMap<>();
-        // path reconstruction
         Map<Cell, Cell> cameFrom = new HashMap<>();
 
-        // min-heap priority queue
+
         PriorityQueue<Cell> pq = new PriorityQueue<>(Comparator.comparingInt(dist::get));
 
         for (int r = 0; r < rows; r++) {
@@ -29,17 +27,21 @@ public class Dijkstra extends MazeSolver {
 
         dist.put(start, 0);
         pq.add(start);
-
+        Set<Cell> visited = new HashSet<>();
         while (!pq.isEmpty()) {
             Cell current = pq.poll();
-            exploredOrder.add(current); // record exploration
+
+            if (!visited.add(current)) {
+                continue; // this fuckass fix took 2 hrs. 1 LINE OF CODE to ensure its the same
+            }
+            exploredOrder.add(current);
 
             if (current == goal) {
                 return reconstructPath(cameFrom, current);
             }
 
             for (Cell neighbor : getNeighbors(current, grid, rows, cols)) {
-                int newDist = dist.get(current) + 1; // cost = 1 per move
+                int newDist = dist.get(current) + 1; // 1 cost per move
                 if (newDist < dist.get(neighbor)) {
                     dist.put(neighbor, newDist);
                     cameFrom.put(neighbor, current);
@@ -48,7 +50,7 @@ public class Dijkstra extends MazeSolver {
             }
         }
 
-        return Collections.emptyList(); // no path found
+        return Collections.emptyList();
     }
 
     private static List<Cell> reconstructPath(Map<Cell, Cell> cameFrom, Cell current) {

@@ -4,14 +4,15 @@ import org.anton.nea.maze.Cell;
 import org.anton.nea.maze.GameBoard;
 import org.anton.nea.maze.Player;
 import org.anton.nea.util.Vector2;
+import javafx.scene.Scene;
 
 public class MovementHandler {
     private GameBoard gameBoard;
     private Player player;
 
-    public MovementHandler(GameBoard gameBoard, Player player){
+    public MovementHandler(GameBoard gameBoard, Player player, Scene scene){
         this.gameBoard = gameBoard;
-        this.player = player
+        this.player = player;
         // this is just a constructor,
     }
 
@@ -22,11 +23,9 @@ public class MovementHandler {
         /*
         Right now what.
          */
-        Cell[][] rizz = this.gameBoard.getCellRepr();
-        int cellSize = this.gameBoard.getCellSize();
-        int rows = this.gameBoard.getRows();
-        int cols = this.gameBoard.getCols();
-        this.player.
+        player.moveVector(vector);
     }
 
+    public void pause(){throw new RuntimeException("not implemeted");};
+    public void resume(){throw new RuntimeException("notImplemented");};
 }

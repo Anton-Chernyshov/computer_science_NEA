@@ -125,3 +125,17 @@
 .split-pane-divider:hover {
     -fx-background-color: #1f3d66;
 }
+.combo-box {
+    -fx-background-color: #14243d;
+    -fx-border-color: #1f3355;
+    -fx-border-radius: 6;
+    -fx-text-fill: #ffffff;
+
+}
+
+/* The cells inside the dropdown */
+.combo-box .list-cell {
+    -fx-background-color: #14243d;
+    -fx-text-fill: #ffffff; /* selected item text */
+}
+

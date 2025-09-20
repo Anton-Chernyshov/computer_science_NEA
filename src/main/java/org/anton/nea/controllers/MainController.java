@@ -1,7 +1,10 @@
 package org.anton.nea.controllers;
 
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
+import org.anton.nea.io.ArrowKeyHandler;
+import org.anton.nea.io.MovementHandler;
+import org.anton.nea.maze.Player;
 import org.anton.nea.util.Color2;
 import org.anton.nea.helpers.OnStartup;
 import org.anton.nea.maze.Config;
@@ -15,9 +18,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
@@ -27,7 +27,6 @@ import java.util.Random;
 import java.util.function.Supplier;
 import javafx.fxml.FXML;
 import org.anton.nea.ui.Timer;
-
 public class MainController {
     private final Stage stage;
 
@@ -44,25 +43,33 @@ public class MainController {
     public void loadMain() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/anton/nea/main.fxml"));
-            loader.setController(this); // required when manually injecting
+            loader.setController(this);
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Antons Maze Game");
             stage.centerOnScreen();
-
-            // Show first
             stage.show();
-
-            // Then maximize after layout pass
             Platform.runLater(() -> stage.setMaximized(true));
 
             // load configs from files
             Config config = Config.getInstance();
             OnStartup.RunOnStartup(scene);
             Timer timer = new Timer(timerLabel);
-            CursorHandler.cursorListener(gameCanvas, timer, colorPickerWall);
+            // Movement handlers
+            handleGenerateNewButtonAction(null); // draws maze on startup
+
+            Player player = new Player(gameCanvas, gameCanvas.getCellSize()/2, gameCanvas.getCellSize()/2);
+            ArrowKeyHandler ArrowKeyHandler = new ArrowKeyHandler(gameCanvas, player, scene, hasAccelerationCheckbox);
+            gameCanvas.setMovementHandler(ArrowKeyHandler);
+
+            //CursorHandler.cursorListener(gameCanvas, timer, colorPickerWall);
+
+
+            // make text fields limited on input
+            TextFieldController.makeHexField(seedValue);
+            TextFieldController.makeNumberField(animationSpeedMS);
 
         } catch (Exception e) {
             Platform.runLater(() -> {
@@ -75,8 +82,10 @@ public class MainController {
     @FXML private ColorPicker colorPickerWall;
     @FXML private ColorPicker colorPickerBackground;
     @FXML private TextField seedValue;
-    @FXML private ChoiceBox<String> algorithmChoiceBox;
-    @FXML private ChoiceBox<String> solveAlgoChoiceBox;
+    @FXML private TextField animationSpeedMS;
+    @FXML private ComboBox<String> algorithmChoiceBox;
+    @FXML private ComboBox<String> solveAlgoChoiceBox;
+    @FXML private CheckBox hasAccelerationCheckbox;
     // BUTTONS vvvvvv
     /**
      * Mapping string to generator object type
@@ -88,8 +97,7 @@ public class MainController {
     );
     private static final Map<String, Supplier<MazeSolver>> MazeSolver = Map.of(
       "Astar", org.anton.nea.maze.algos.solve.Astar::new,
-        "Dijkstra", org.anton.nea.maze.algos.solve.Dijkstra::new,
-        "BFS", org.anton.nea.maze.algos.solve.BFS::new
+        "Dijkstra", org.anton.nea.maze.algos.solve.Dijkstra::new
     );
     /**
      * little helper function to convert string to algorithm type
@@ -143,7 +151,7 @@ public class MainController {
     private void handleSolveButtonAction(ActionEvent event) {
 
         gameCanvas.showSolvedMaze(
-                Objects.requireNonNull(stringToAlgoGenerator(solveAlgoChoiceBox.getValue())), new Color2(colorPickerWall.getValue(), colorPickerBackground.getValue()) );
+                Objects.requireNonNull(stringToAlgoGenerator(solveAlgoChoiceBox.getValue())), new Color2(colorPickerWall.getValue(), colorPickerBackground.getValue()), Integer.parseInt(animationSpeedMS.getText()));
     }
 
 }

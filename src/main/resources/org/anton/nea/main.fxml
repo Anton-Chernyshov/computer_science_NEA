@@ -30,7 +30,7 @@
             <children>
                 <Pane prefHeight="300.0" prefWidth="300.0">
                     <children>
-                        <ChoiceBox layoutX="20.0" layoutY="59.0" prefWidth="150.0" fx:id="algorithmChoiceBox" value="RecursiveBacktrack">
+                        <ComboBox layoutX="20.0" layoutY="59.0" prefWidth="150.0" fx:id="algorithmChoiceBox" value="RecursiveBacktrack">
                                 <items>
                                     <FXCollections fx:factory="observableArrayList">
                                     <String fx:value="Antons"/>
@@ -38,7 +38,7 @@
                                     <String fx:value="Prims"/>
                                     </FXCollections>
                                 </items>
-                        </ChoiceBox>
+                        </ComboBox>
                         <ColorPicker layoutX="20.0" layoutY="168.0" prefHeight="30.0" prefWidth="100.0" fx:id="colorPickerWall">
                         <value>
                             <Color fx:constant="BLACK"/>
@@ -60,19 +60,34 @@
                         <Button layoutX="180.0" layoutY="218.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="100.0" text="New Maze" onAction="#handleGenerateNewButtonAction" />
                     </children>
                 </Pane>
+                <Pane layoutY="350.0" prefHeight="300.0" prefWidth="300.0">
+                    <!-- This is the player settings algorith, so has accel and other stuff ( also start game -->
+                    <Label layoutX = "20.0" layoutY = "1">Has Acceleration?</Label>
+                    <CheckBox layoutX = "20" layoutY="20" fx:id="hasAccelerationCheckbox"/>
+                    <Label layoutX = "20" layoutY="40">Music Player</Label>
+                    <HBox spacing="10" layoutX="20" layoutY="60" alignment="CENTER">
+                        <Button fx:id="playButton" text="▶"/>
+                        <Button fx:id="pauseButton" text="⏸"/>
+                        <Button fx:id="nextButton" text="⏭"/>
+                    </HBox>
+
+                    <Slider layoutX = "20" layoutY = "90" fx:id="progressSlider" prefWidth="300"/>
+                    <Label layoutX = "20" layoutY = "110" prefWidth="100" fx:id="timeLabel" text="0:00 / 0:00"/>
+                </Pane>
                 <Pane layoutY="700.0" prefHeight="300.0" prefWidth="300.0">
-                    <ChoiceBox layoutX="20.0" layoutY="1.0" prefWidth="150.0" fx:id="solveAlgoChoiceBox" value="Dijkstra">
+                    <!--  Box to select algorithm settings-->
+                    <ComboBox layoutX="20.0" layoutY="1.0" prefWidth="150.0" fx:id="solveAlgoChoiceBox" value="Dijkstra">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Dijkstra"/>
                             <String fx:value="Astar"/>
-                            <String fx:value="BFS"/>
                         </FXCollections>
                     </items>
-                </ChoiceBox>
+                </ComboBox>
+                    <TextField layoutX="180" layoutY="1" fx:id="animationSpeedMS" prefWidth="30">25</TextField>
                     <Button layoutX="20.0" layoutY="40.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="260.0" text="Solve Maze" onAction="#handleSolveButtonAction" />
                 </Pane>
-                <Pane layoutY="350.0" prefHeight="300.0" prefWidth="300.0" />
+
             </children>
         </AnchorPane>
 

@@ -1,5 +1,6 @@
 package org.anton.nea.maze;
 
+import org.anton.nea.io.MovementHandler;
 import org.anton.nea.util.Color2;
 import org.anton.nea.util.Point2;
 import org.anton.nea.maze.algos.gen.MazeGenerator;
@@ -20,6 +21,7 @@ public class GameBoard extends Canvas {
     Cell[][] cellRepr;
     /** Cellsize is 20*/
     private final int cellSize; // go pico then, insane aura
+    private Color2 color;
     /**
      * fuckass class that is the bane of my life. JKJK lol
      * <p>This class is where the game occurs, its a custom canvas subclass that does my special stuff, because i decided to do this
@@ -79,7 +81,10 @@ public class GameBoard extends Canvas {
     public int getRows() {return rows;}
     public int getCols() {return cols;}
     public int getCellSize() {return cellSize;}
-
+    public Color2 getColor() {return color;}
+    private MovementHandler handler;
+    public void setMovementHandler(MovementHandler handler) {this.handler = handler;}
+    public MovementHandler getMovementHandler() {return handler;}
     /**
      * Fills the whole cellRepr with the cellValue
      * @param cellValue a value from 0x0 -> 0xF ( representing 4 bits UDLR )
@@ -109,6 +114,7 @@ public class GameBoard extends Canvas {
      * @param cellColors Color2 color for the cell
      */
     public void updateGrid(Color2 cellColors){
+        this.color = cellColors;
         for (int row = 0; row < this.rows; row++) {
             for (int col = 0; col < this.cols; col++) {
                 this.cellRepr[row][col].draw(getGraphicsContext2D(), cellColors);
@@ -118,15 +124,7 @@ public class GameBoard extends Canvas {
 
     }
 
-    /**
-     * Oh jesus christ this took a while to do.
-     * @param start starting point of the grid, ACCORDING TO MY (col, row) grid NOT the canvas (x,y)
-     * @param end end point, same grid as above
-     */
-    public void drawPath(Point2 start, Point2 end) {
 
-
-    }
 
     public void drawPixel(int x, int y, Color color){
         GraphicsContext gc = getGraphicsContext2D();
@@ -150,10 +148,10 @@ public class GameBoard extends Canvas {
         this.cellRepr[this.cellRepr.length - 1][this.cellRepr[this.cellRepr.length - 1].length -1].draw(getGraphicsContext2D(), endColor);
     }
 
-    public void showSolvedMaze(MazeSolver solver, Color2 colors){
+    public void showSolvedMaze(MazeSolver solver, Color2 colors, int animationSpeed){
         List<Cell> solution = solver.solve(this.cellRepr, this.rows, this.cols);
         Dijkstra mazeSolver = (Dijkstra) solver;
-        AnimationRenderer.showSolvingAnimation(this, mazeSolver);
+        AnimationRenderer.showSolvingAnimation(this, mazeSolver, animationSpeed);
 
 
     }
