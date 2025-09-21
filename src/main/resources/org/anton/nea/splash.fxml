@@ -6,8 +6,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+
 <StackPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="400.0" prefWidth="600.0">
-    <Label text="This Will eventually look nice and have a logo and everything, but right now i cant be bothered so you get this text :)" style="-fx-font-size: 24px;-fx-wrap-text: true" />
+    <Pane fx:id="bg"/>
+    <VBox alignment="CENTER">
+    <Label text="This Will eventually look nice and have a logo and everything, but right now i cant be bothered so you get this text :)" style="-fx-font-size: 50px;-fx-wrap-text: true" layoutY="600"/>
+    <Label text="This project was dependency hell I HATE NEA I HATE NEA I HATE NEA I HATE NEA I HATE NEA I HATE NEA I HATE NEA" style="-fx-font-size: 50px;-fx-wrap-text: true" layoutY="650"/>
+    </VBox>
 </StackPane>

@@ -69,9 +69,11 @@
                         <Button fx:id="playButton" text="▶"/>
                         <Button fx:id="pauseButton" text="⏸"/>
                         <Button fx:id="nextButton" text="⏭"/>
+                        <Button fx:id="shuffleButton" text="S"/>
+                        <Button fx:id="loopButton" text="L"/>
                     </HBox>
 
-                    <Slider layoutX = "20" layoutY = "90" fx:id="progressSlider" prefWidth="300"/>
+                    <Slider layoutX = "20" layoutY = "90" fx:id="progressSlider" prefWidth="200"/>
                     <Label layoutX = "20" layoutY = "110" prefWidth="100" fx:id="timeLabel" text="0:00 / 0:00"/>
                 </Pane>
                 <Pane layoutY="700.0" prefHeight="300.0" prefWidth="300.0">

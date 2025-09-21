@@ -2,15 +2,14 @@ package org.anton.nea.controllers;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
-import org.anton.nea.io.ArrowKeyHandler;
-import org.anton.nea.io.MovementHandler;
+import org.anton.nea.io.*;
 import org.anton.nea.maze.Player;
+import org.anton.nea.ui.MusicPlayer;
 import org.anton.nea.util.Color2;
 import org.anton.nea.helpers.OnStartup;
 import org.anton.nea.maze.Config;
 import org.anton.nea.maze.algos.gen.*;
 import org.anton.nea.maze.algos.solve.MazeSolver;
-import org.anton.nea.io.CursorHandler;
 import org.anton.nea.ui.ErrorWindow;
 import org.anton.nea.maze.GameBoard;
 
@@ -21,12 +20,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.io.File;
+import java.util.*;
 import java.util.function.Supplier;
 import javafx.fxml.FXML;
 import org.anton.nea.ui.Timer;
+
 public class MainController {
     private final Stage stage;
 
@@ -36,12 +35,14 @@ public class MainController {
     private StackPane mazePane;
     @FXML
     private Label timerLabel;
+    private MusicPlayer musicPlayer;
     public MainController(Stage stage) {
         this.stage = stage;
     }
 
     public void loadMain() {
         try {
+            System.load(new File("SDL2.dll").getAbsolutePath()); // fuckin external stuff
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/anton/nea/main.fxml"));
             loader.setController(this);
             Parent root = loader.load();
@@ -61,8 +62,8 @@ public class MainController {
             handleGenerateNewButtonAction(null); // draws maze on startup
 
             Player player = new Player(gameCanvas, gameCanvas.getCellSize()/2, gameCanvas.getCellSize()/2);
-            ArrowKeyHandler ArrowKeyHandler = new ArrowKeyHandler(gameCanvas, player, scene, hasAccelerationCheckbox);
-            gameCanvas.setMovementHandler(ArrowKeyHandler);
+            MovementHandler handler = new ControllerHandler(gameCanvas, player, scene, hasAccelerationCheckbox);
+            gameCanvas.setMovementHandler(handler);
 
             //CursorHandler.cursorListener(gameCanvas, timer, colorPickerWall);
 
@@ -71,13 +72,39 @@ public class MainController {
             TextFieldController.makeHexField(seedValue);
             TextFieldController.makeNumberField(animationSpeedMS);
 
+            List<String> songs = new ArrayList<>();
+            File folder = new File("testmusic");
+
+            if (folder.exists() && folder.isDirectory()) {
+                File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
+                if (files != null) {
+                    for (File file : files) {
+                        songs.add(file.getAbsolutePath());
+                    }
+                }
+            }
+
+            // Initialize MusicPlayer with all UI controls
+            musicPlayer = new MusicPlayer(
+                    songs, playButton, pauseButton, nextButton,
+                    loopButton, shuffleButton, progressSlider, timeLabel
+            );
+
+            stage.setOnCloseRequest(event -> {
+                cleanup();
+            });
+
         } catch (Exception e) {
             Platform.runLater(() -> {
                 ErrorWindow.show(e);
             });
         }
     }
-
+    private void cleanup(){
+        if(gameCanvas.getMovementHandler() instanceof ControllerHandler handler){
+            handler.shutdown();
+        }
+    }
     // Text Areas and dropdowns
     @FXML private ColorPicker colorPickerWall;
     @FXML private ColorPicker colorPickerBackground;
@@ -86,6 +113,14 @@ public class MainController {
     @FXML private ComboBox<String> algorithmChoiceBox;
     @FXML private ComboBox<String> solveAlgoChoiceBox;
     @FXML private CheckBox hasAccelerationCheckbox;
+    @FXML private Button playButton;
+    @FXML private Button pauseButton;
+    @FXML private Button nextButton;
+    @FXML private Slider progressSlider;
+    @FXML private Label timeLabel;
+    @FXML private Button shuffleButton;
+    @FXML private Button loopButton;
+
     // BUTTONS vvvvvv
     /**
      * Mapping string to generator object type

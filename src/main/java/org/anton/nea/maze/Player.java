@@ -98,7 +98,22 @@ public class Player {
         int cellSize = this.gameboard.getCellSize();
         for (int i = 0; i < characterDefinition.length; i++) {
             for (int j = 0; j < characterDefinition[i].length; j++) {
-                if (characterDefinition[i][j] != null) {                gameboard.drawPixel((int)(x+j), (int)(y+i), characterDefinition[i][j]);
+                if (characterDefinition[i][j] != null) {
+                    int drawX = (int)x+j;
+                    int drawY = (int)y+i;
+                    gameboard.drawPixel(drawX, drawY, characterDefinition[i][j]);
+                    // TO DO  FIX THIS SHIT SINCE RIGHT NOW ITS O(55MILLION) OPERATIONS PER FRAME
+                    // PER       FRAME. @60FPS
+                    // WHAT THE FUCK WAS I COOKING
+                    /*
+                    if (!checkCollisionAt(drawX, drawY)) {
+                        gameboard.drawPixel(drawX, drawY, characterDefinition[i][j]);
+
+                    } else {
+                        // handle collision (stop movement, reset, etc)
+                        handleCollision(drawX, drawY);
+                    }
+                    */
                 }
 
             }
@@ -121,5 +136,37 @@ public class Player {
     public void rotate(int degrees){
         setRotation(rotation + degrees);
         updatePlayer();
+    }
+    private boolean checkCollisionAt(int drawX, int drawY) {
+        Color boardColor = gameboard.getColorAt(drawX, drawY);
+        /*
+                 No switches?
+        ⠀⣞⢽⢪⢣⢣⢣⢫⡺⡵⣝⡮⣗⢷⢽⢽⢽⣮⡷⡽⣜⣜⢮⢺⣜⢷⢽⢝⡽⣝
+        ⠸⡸⠜⠕⠕⠁⢁⢇⢏⢽⢺⣪⡳⡝⣎⣏⢯⢞⡿⣟⣷⣳⢯⡷⣽⢽⢯⣳⣫⠇
+        ⠀⠀⢀⢀⢄⢬⢪⡪⡎⣆⡈⠚⠜⠕⠇⠗⠝⢕⢯⢫⣞⣯⣿⣻⡽⣏⢗⣗⠏⠀
+        ⠀⠪⡪⡪⣪⢪⢺⢸⢢⢓⢆⢤⢀⠀⠀⠀⠀⠈⢊⢞⡾⣿⡯⣏⢮⠷⠁⠀⠀
+        ⠀⠀⠀⠈⠊⠆⡃⠕⢕⢇⢇⢇⢇⢇⢏⢎⢎⢆⢄⠀⢑⣽⣿⢝⠲⠉⠀⠀⠀⠀
+        ⠀⠀⠀⠀⠀⡿⠂⠠⠀⡇⢇⠕⢈⣀⠀⠁⠡⠣⡣⡫⣂⣿⠯⢪⠰⠂⠀⠀⠀⠀
+        ⠀⠀⠀⠀⡦⡙⡂⢀⢤⢣⠣⡈⣾⡃⠠⠄⠀⡄⢱⣌⣶⢏⢊⠂⠀⠀⠀⠀⠀⠀
+        ⠀⠀⠀⠀⢝⡲⣜⡮⡏⢎⢌⢂⠙⠢⠐⢀⢘⢵⣽⣿⡿⠁⠁⠀⠀⠀⠀⠀⠀⠀
+        ⠀⠀⠀⠀⠨⣺⡺⡕⡕⡱⡑⡆⡕⡅⡕⡜⡼⢽⡻⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+        ⠀⠀⠀⠀⣼⣳⣫⣾⣵⣗⡵⡱⡡⢣⢑⢕⢜⢕⡝⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+        ⠀⠀⠀⣴⣿⣾⣿⣿⣿⡿⡽⡑⢌⠪⡢⡣⣣⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+        ⠀⠀⠀⡟⡾⣿⢿⢿⢵⣽⣾⣼⣘⢸⢸⣞⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+        ⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+        */
+
+        if (boardColor.equals(Color.RED)) {
+            // win
+            return true;
+        }
+        if (boardColor.equals(Color.BLACK)) {
+            // wall
+            return true;
+        }
+        return false;
+    }
+    private void handleCollision(int drawX, int drawY) {
+        //
     }
 }

@@ -9,24 +9,18 @@ import org.anton.nea.util.Vector2;
 import java.util.HashSet;
 import java.util.Set;
 import javafx.scene.control.CheckBox;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-public class ArrowKeyHandler extends MovementHandler {
+
+public class WASDHandler extends MovementHandler{
     private final Set<KeyCode> pressedKeys = new HashSet<>();
-    public ArrowKeyHandler(GameBoard gameBoard, Player player, Scene scene, CheckBox checkbox) {
+    public WASDHandler(GameBoard gameBoard, Player player, Scene scene, CheckBox checkbox) {
 
         super(gameBoard, player, scene, checkbox);
-
-
-
-
         scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             pressedKeys.add(event.getCode());
             move();
             event.consume();
         });
 
-        // Track key releases
         scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
             pressedKeys.remove(event.getCode());
             move();
@@ -39,10 +33,10 @@ public class ArrowKeyHandler extends MovementHandler {
     protected void move() {
         Vector2 direction = new Vector2(0, 0);
 
-        if (pressedKeys.contains(KeyCode.UP)) direction = direction.add(Vector2.UP);
-        if (pressedKeys.contains(KeyCode.DOWN)) direction = direction.add(Vector2.DOWN);
-        if (pressedKeys.contains(KeyCode.LEFT)) direction = direction.add(Vector2.LEFT);
-        if (pressedKeys.contains(KeyCode.RIGHT)) direction = direction.add(Vector2.RIGHT);
+        if (pressedKeys.contains(KeyCode.W)) direction = direction.add(Vector2.UP);
+        if (pressedKeys.contains(KeyCode.S)) direction = direction.add(Vector2.DOWN);
+        if (pressedKeys.contains(KeyCode.A)) direction = direction.add(Vector2.LEFT);
+        if (pressedKeys.contains(KeyCode.D)) direction = direction.add(Vector2.RIGHT);
 
         updateMovement(direction);
 

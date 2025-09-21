@@ -36,4 +36,5 @@ public class ErrorController {
     private void terminate(){
         Platform.exit();
     }
+
 }

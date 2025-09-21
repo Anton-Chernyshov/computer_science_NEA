@@ -1,5 +1,7 @@
 package org.anton.nea.maze;
 
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
 import org.anton.nea.io.MovementHandler;
 import org.anton.nea.util.Color2;
 import org.anton.nea.util.Point2;
@@ -82,6 +84,22 @@ public class GameBoard extends Canvas {
     public int getCols() {return cols;}
     public int getCellSize() {return cellSize;}
     public Color2 getColor() {return color;}
+    public Color getColorAt(int x, int y){
+        // color at the FUCKING X Y PIXEL NOT ROW
+        // stoile this beautiful bit of code from my mouse handler
+        WritableImage snapshot = new WritableImage((int)this.getWidth(), (int)this.getHeight());
+        this.snapshot(null, snapshot);
+
+        PixelReader reader = snapshot.getPixelReader();
+        if (reader != null) {
+
+            if (x >= 0 && x < snapshot.getWidth() && y >= 0 && y < snapshot.getHeight()) {
+                return reader.getColor(x, y);
+
+            }
+        }
+        return null; // out of range
+    }
     private MovementHandler handler;
     public void setMovementHandler(MovementHandler handler) {this.handler = handler;}
     public MovementHandler getMovementHandler() {return handler;}
