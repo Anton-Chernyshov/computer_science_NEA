@@ -84,4 +84,5 @@ public abstract class MovementHandler {
     public void moveVector(Vector2 vector){
         player.moveVector(vector);
     }
+    public abstract  void startTimer();
 }

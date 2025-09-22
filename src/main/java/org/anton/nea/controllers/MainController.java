@@ -22,6 +22,7 @@ import javafx.event.ActionEvent;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import javafx.fxml.FXML;
 import org.anton.nea.ui.Timer;
@@ -42,7 +43,15 @@ public class MainController {
 
     public void loadMain() {
         try {
-            System.load(new File("SDL2.dll").getAbsolutePath()); // fuckin external stuff
+            System.out.println(OnStartup.getOS());
+            if (OnStartup.getOS() == 0){System.load(new File("SDL2.dll").getAbsolutePath());} // fuckin external stuff
+            else if (OnStartup.getOS() == 2){
+                System.out.println("Linux");
+            }
+            else{
+                TimeUnit.SECONDS.sleep(9999999); // punish user for using macOS
+                throw new RuntimeException("mac user");
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/anton/nea/main.fxml"));
             loader.setController(this);
             Parent root = loader.load();
@@ -64,7 +73,7 @@ public class MainController {
             Player player = new Player(gameCanvas, gameCanvas.getCellSize()/2, gameCanvas.getCellSize()/2);
             MovementHandler handler = new ControllerHandler(gameCanvas, player, scene, hasAccelerationCheckbox);
             gameCanvas.setMovementHandler(handler);
-
+            handler.startTimer();
             //CursorHandler.cursorListener(gameCanvas, timer, colorPickerWall);
 
 

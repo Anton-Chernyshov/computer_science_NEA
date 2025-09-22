@@ -12,9 +12,16 @@ import javafx.scene.control.CheckBox;
 
 public class WASDHandler extends MovementHandler{
     private final Set<KeyCode> pressedKeys = new HashSet<>();
+    private final Scene scene;
     public WASDHandler(GameBoard gameBoard, Player player, Scene scene, CheckBox checkbox) {
 
         super(gameBoard, player, scene, checkbox);
+
+        this.scene = scene;
+
+    }
+    @Override
+    public void startTimer(){
         scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             pressedKeys.add(event.getCode());
             move();
@@ -26,8 +33,6 @@ public class WASDHandler extends MovementHandler{
             move();
             event.consume();
         });
-
-
     }
     @Override
     protected void move() {

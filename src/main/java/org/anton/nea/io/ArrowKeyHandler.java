@@ -13,25 +13,14 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 public class ArrowKeyHandler extends MovementHandler {
     private final Set<KeyCode> pressedKeys = new HashSet<>();
+    private final Scene scene;
     public ArrowKeyHandler(GameBoard gameBoard, Player player, Scene scene, CheckBox checkbox) {
 
         super(gameBoard, player, scene, checkbox);
 
+        this.scene = scene;
 
 
-
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            pressedKeys.add(event.getCode());
-            move();
-            event.consume();
-        });
-
-        // Track key releases
-        scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
-            pressedKeys.remove(event.getCode());
-            move();
-            event.consume();
-        });
 
 
     }
@@ -48,4 +37,22 @@ public class ArrowKeyHandler extends MovementHandler {
 
     }
 
+    /**
+     * starts listeners for the game input, in this case, it handles arrow key events.
+     */
+    public void startTimer(){
+
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            pressedKeys.add(event.getCode());
+            move();
+            event.consume();
+        });
+
+        // Track key releases
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+            pressedKeys.remove(event.getCode());
+            move();
+            event.consume();
+        });
+    }
 }

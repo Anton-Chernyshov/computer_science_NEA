@@ -22,8 +22,13 @@ public class GameBoard extends Canvas {
     /**The actual maze cells, represented as a 2d array*/
     Cell[][] cellRepr;
     /** Cellsize is 20*/
-    private final int cellSize; // go pico then, insane aura
+    private final int cellSize;
+    /** The color of the gameboard going {@link Color2#ColorA is wall}*/
     private Color2 color;
+
+
+
+
     /**
      * fuckass class that is the bane of my life. JKJK lol
      * <p>This class is where the game occurs, its a custom canvas subclass that does my special stuff, because i decided to do this

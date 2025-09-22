@@ -26,7 +26,8 @@ import java.util.Objects;
 public class ControllerHandler extends MovementHandler {
     private ControllerManager controllers = new ControllerManager();
     private Vector2 direction = new Vector2(0, 0);
-    private  ControllerState state;
+    private ControllerState state;
+    private AnimationTimer timer;
     public ControllerHandler(GameBoard gameBoard, Player player, Scene scene, CheckBox checkbox){
         super(gameBoard, player, scene, checkbox);
 
@@ -45,8 +46,14 @@ public class ControllerHandler extends MovementHandler {
                 gameBoard.getMovementHandler().move();
             }
         };
-        timer.start();
 
+    }
+
+    /**
+     * starts the animation timer responsible for polling the controller
+     */
+    public void startTimer(){
+        timer.start();
     }
 
     /**

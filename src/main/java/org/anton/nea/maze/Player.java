@@ -4,6 +4,9 @@ import org.anton.nea.util.HelperFuncs;
 import org.anton.nea.util.Point2;
 import org.anton.nea.util.Vector2;
 import java.lang.Math;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
     private final GameBoard gameboard;
     private double x;
@@ -19,17 +22,36 @@ public class Player {
             {null, null, Color.BLACK, Color.BLACK, Color.BLACK, null, null},
             {null, null, null, null, null, null, null},
     };
-    private int[][] characterLocations = {
-            {1, 3},
-            {2, 2}, {2, 3}, {2, 4},
-            {3, 1}, {3, 2}, {3, 3}, {3, 4}, {3, 5},
-            {4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4}, {4, 5}, {4, 6},
-            {5, 2}, {5, 3}, {5, 4}, {5, 5}
-    };
 
+    private List<List<Integer>> boundaryIndices = new ArrayList<>();
+    private void updateBoundaryIndices(){
+        boundaryIndices.clear();
+        for (int y = 0; y < characterDefinition.length; y++) {
+            Color[] row = characterDefinition[y];
+            List<Integer> rowBoundaries = new ArrayList<>();
+            Color prev = null;
+            for (int i = 0; i < row.length; i++){
+                if (row[i] != null && prev == null) { //start of block
+                    rowBoundaries.add(i);
+                }
+                if (row[i] == null && prev != null) {
+                    rowBoundaries.add(i-1);
+                }
+                prev = row[i];
+            }
+            if (prev != null) {
+                rowBoundaries.add(rowBoundaries.toArray().length, -1);
+            }
+            boundaryIndices.add(rowBoundaries);
+
+        }
+    }
+    private List<List<Integer>> getBoundaryIndices() {
+        return boundaryIndices;
+    }
     /**
      * generates a player
-     * @param gameboard
+     * @param gameboard ?? what do u think
      * @param x the RAW X COORD ON THE CANVAS
      * @param y the Y coord on the canvas
      */
@@ -41,6 +63,7 @@ public class Player {
     }
     public void setGraphicObject(Color[][] characterDefinition){
         this.characterDefinition = characterDefinition;
+        updateBoundaryIndices();
     }
     public double getX() {return x;}
     public double getY() {return y;}
@@ -102,18 +125,33 @@ public class Player {
                     int drawX = (int)x+j;
                     int drawY = (int)y+i;
                     gameboard.drawPixel(drawX, drawY, characterDefinition[i][j]);
+
+                    /*
+                    Ok are you ready for this piece of genius.
+                    Basically, since collision is checked when drawn, there will NEVER be a situation where an "inner" pixel
+                    is touching a wall, so for efficiency, we ONLY check non-null outer pixels
+                    so in a line of
+                    {null, null, Color.BLACK, Color.BLACK, Color.BLACK, null, null}
+                    we only need to check index 2 and 4
+                    this means from the 49 iterations we did before, we do like 10 ( MUCH MORE EFFICIENT )
+                    in addition to my NEW and IMPROVED pixel getter it should be MUCH MORE EFFICIENT ( aka not O(5.5x10^6) )
+                    (which was constant time, but it was just SO FUCKING SLOW)
+                    */
+
+                    System.out.println(this.boundaryIndices);
+
                     // TO DO  FIX THIS SHIT SINCE RIGHT NOW ITS O(55MILLION) OPERATIONS PER FRAME
                     // PER       FRAME. @60FPS
                     // WHAT THE FUCK WAS I COOKING
-                    /*
-                    if (!checkCollisionAt(drawX, drawY)) {
-                        gameboard.drawPixel(drawX, drawY, characterDefinition[i][j]);
+                    // Ok to be honest, the actual collision logic is *fine* ish, its just the checkcollisionAt function is HORRIBLY ineficient
+//                    if (!checkCollisionAt(drawX, drawY)) {
+//                        gameboard.drawPixel(drawX, drawY, characterDefinition[i][j]);
+//
+//                    } else {
+//                        // handle collision (stop movement, reset, etc)
+//                        handleCollision(drawX, drawY);
+//                    }
 
-                    } else {
-                        // handle collision (stop movement, reset, etc)
-                        handleCollision(drawX, drawY);
-                    }
-                    */
                 }
 
             }
