@@ -53,7 +53,7 @@ public class ControllerHandler extends MovementHandler {
      * starts the animation timer responsible for polling the controller
      */
     public void startTimer(){
-        timer.start();
+        this.timer.start();
     }
 
     /**
@@ -61,20 +61,25 @@ public class ControllerHandler extends MovementHandler {
      */
     public void shutdown(){
         controllers.quitSDLGamepad();
+
     }
     @Override
     protected void move(){
         state = controllers.getState(0);
         if (controllers.getState(0) != null){
 
+            /*
+            theres a weird bug here that if u stop moving upwards / downwards the player keeps drifting that way until you touch the stick again ( in which case it stops )
+            i dont think this is stick drift?
+             */
+
             float deadzone = 0.5f;
             float x = Math.abs(state.leftStickX) > deadzone ? state.leftStickX : 0;
             float y = Math.abs(state.leftStickY) > deadzone ? state.leftStickY : 0;
-
             Vector2 stickVector = new Vector2(x, -y); // invert Y if needed
 
             // Scale by MovementHandler speed
-            Vector2 movement = stickVector.multiply(1.5);
+            Vector2 movement = stickVector.multiply(2);
 
             moveVector(movement);
 

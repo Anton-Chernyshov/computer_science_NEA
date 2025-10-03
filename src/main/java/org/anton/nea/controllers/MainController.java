@@ -1,5 +1,6 @@
 package org.anton.nea.controllers;
 
+import javafx.application.Application;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import org.anton.nea.io.*;
@@ -46,7 +47,7 @@ public class MainController {
             System.out.println(OnStartup.getOS());
             if (OnStartup.getOS() == 0){System.load(new File("SDL2.dll").getAbsolutePath());} // fuckin external stuff
             else if (OnStartup.getOS() == 2){
-                System.out.println("Linux");
+                System.out.println("Linux users, make sure to install SDL2 pls :)) ");
             }
             else{
                 TimeUnit.SECONDS.sleep(9999999); // punish user for using macOS
@@ -71,10 +72,11 @@ public class MainController {
             handleGenerateNewButtonAction(null); // draws maze on startup
 
             Player player = new Player(gameCanvas, gameCanvas.getCellSize()/2, gameCanvas.getCellSize()/2);
-            MovementHandler handler = new ControllerHandler(gameCanvas, player, scene, hasAccelerationCheckbox);
+            MovementHandler handler = new WASDHandler(gameCanvas, player, scene, hasAccelerationCheckbox);
             gameCanvas.setMovementHandler(handler);
             handler.startTimer();
-            //CursorHandler.cursorListener(gameCanvas, timer, colorPickerWall);
+
+//            CursorHandler.cursorListener(gameCanvas, timer, colorPickerWall);
 
 
             // make text fields limited on input
@@ -82,7 +84,7 @@ public class MainController {
             TextFieldController.makeNumberField(animationSpeedMS);
 
             List<String> songs = new ArrayList<>();
-            File folder = new File("testmusic");
+            File folder = new File("/home/anton/IdeaProjects/computer_science_NEA/testmusic");
 
             if (folder.exists() && folder.isDirectory()) {
                 File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
@@ -92,6 +94,9 @@ public class MainController {
                     }
                 }
             }
+            System.out.println("Loaded songs: " + songs.size());
+            songs.forEach(System.out::println);
+
 
             // Initialize MusicPlayer with all UI controls
             musicPlayer = new MusicPlayer(

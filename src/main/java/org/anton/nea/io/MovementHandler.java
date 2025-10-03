@@ -29,7 +29,6 @@ public abstract class MovementHandler {
         this.speed = 2;
         checkbox.selectedProperty().bindBidirectional(hasAcceleration);
 
-        // Optional: listen to changes
         hasAcceleration.addListener((obs, oldVal, newVal) -> {
             System.out.println("Checkbox changed: " + newVal);
         });
@@ -84,5 +83,5 @@ public abstract class MovementHandler {
     public void moveVector(Vector2 vector){
         player.moveVector(vector);
     }
-    public abstract  void startTimer();
+    public abstract void startTimer();
 }

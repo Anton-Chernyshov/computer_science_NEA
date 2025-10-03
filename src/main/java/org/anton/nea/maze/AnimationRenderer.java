@@ -37,11 +37,6 @@ public class AnimationRenderer {
 
         gameBoard.getMovementHandler().pause();
 
-        if (!(solver instanceof org.anton.nea.maze.algos.solve.Dijkstra dijkstra)) {
-            // ive only done this for dijkstra (ez)
-            throw new IllegalArgumentException(("must be djikjstasara"));
-
-        }
         new Thread(() -> {
             List<Cell> path = solver.solve(gameBoard.cellRepr, gameBoard.getRows(), gameBoard.getCols());
             List<Cell> explored = solver.getExploredOrder();

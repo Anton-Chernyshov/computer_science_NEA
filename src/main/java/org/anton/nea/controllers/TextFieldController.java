@@ -6,7 +6,7 @@ import javafx.scene.control.TextFormatter;
 
 public class TextFieldController {
     public static void makeNumberField(TextField tf) {
-        tf.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches("\\d*") ? c : null));
+        tf.setTextFormatter(new TextFormatter<>(c -> c.getControlNewText().matches("\\d*\\b*\\d*") ? c : null));
     }
     public static void makeStringField(TextField tf) {
         tf.setTextFormatter(new TextFormatter<>(c -> c));

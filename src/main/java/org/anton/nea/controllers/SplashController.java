@@ -23,7 +23,7 @@ import java.io.IOException;
 
 public class SplashController {
     private final Stage stage;
-    private static final int splashShowLength = 5; // how long the splash screen is displayed for
+    private static final int splashShowLength = 2; // how long the splash screen is displayed for
     public SplashController(Stage stage) {
         this.stage = stage;
     }

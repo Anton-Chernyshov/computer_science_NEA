@@ -113,7 +113,7 @@ public class Player {
     }
     /**
      * player is represented as an arrow on the board
-     * this just draws him at his X, Y
+     * this just draws him at his X, Y, and checks collision each frame.
      */
     public void updatePlayer(){
         gameboard.updateGrid(gameboard.getColor());
@@ -138,7 +138,6 @@ public class Player {
                     (which was constant time, but it was just SO FUCKING SLOW)
                     */
 
-                    System.out.println(this.boundaryIndices);
 
                     // TO DO  FIX THIS SHIT SINCE RIGHT NOW ITS O(55MILLION) OPERATIONS PER FRAME
                     // PER       FRAME. @60FPS

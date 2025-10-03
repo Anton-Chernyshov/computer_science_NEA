@@ -43,9 +43,10 @@ public class GameBoard extends Canvas {
         the reason i have it all set out  AS IF I was gonna use this constructor with parameters is because i was,
          but then remembered that i was actually loading this using FXML, so i kinda dont need them.. ALSO this makes it easy asf to change stuff so im keeping it yay!!
         */
-        this.rows = 20; // cells //20
-        this.cols = 35;  //70
-        this.cellSize = 40; // px //40
+        // width is 1400, height is 800
+        this.rows =80; // cells //20
+        this.cols = 140;  //35
+        this.cellSize = (int) (1400/this.cols); // px //40
         this.cellRepr = new Cell[rows][cols];
 
     }
@@ -173,8 +174,7 @@ public class GameBoard extends Canvas {
 
     public void showSolvedMaze(MazeSolver solver, Color2 colors, int animationSpeed){
         List<Cell> solution = solver.solve(this.cellRepr, this.rows, this.cols);
-        Dijkstra mazeSolver = (Dijkstra) solver;
-        AnimationRenderer.showSolvingAnimation(this, mazeSolver, animationSpeed);
+        AnimationRenderer.showSolvingAnimation(this, solver, animationSpeed);
 
 
     }

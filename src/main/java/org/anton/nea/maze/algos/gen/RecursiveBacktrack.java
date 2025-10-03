@@ -71,14 +71,6 @@ public class RecursiveBacktrack extends MazeGenerator {
                 stack.pop();
             }
         }
-
-        // ---- Add start and end ----
-        Cell startCell = cellRepr[0][0]; // top-left
-        startCell = new Cell(startCell.getCell() & ~0x8, startCell.getX(), startCell.getY(), startCell.getSize()); // remove top wall
-        cellRepr[0][0] = startCell;
-
-        Cell endCell = cellRepr[rows-1][cols-1]; // bottom-right
-        endCell = new Cell(endCell.getCell() & ~0x4, endCell.getX(), endCell.getY(), endCell.getSize()); // remove bottom wall
-        cellRepr[rows-1][cols-1] = endCell;
+        drawStartAndEndCells(cellRepr);
     }
 }
