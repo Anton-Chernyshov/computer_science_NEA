@@ -44,7 +44,11 @@
                             <Color fx:constant="BLACK"/>
                         </value>
                         </ColorPicker>
-                        <ColorPicker layoutX="180.0" layoutY="168.0" prefHeight="30.0" prefWidth="100.0" fx:id="colorPickerBackground"/>
+                        <ColorPicker layoutX="180.0" layoutY="168.0" prefHeight="30.0" prefWidth="100.0" fx:id="colorPickerBackground">
+                                <value>
+                            <Color          red="0.0" green="0.0" blue="0.0" opacity="0.0"/>
+                                </value>
+                        </ColorPicker>
                         <Label alignment="CENTER" layoutX="20.0" layoutY="150.0" prefHeight="17.0" prefWidth="100.0" text="Wall" />
                         <Label alignment="CENTER" layoutX="180.0" layoutY="150.0" prefHeight="17.0" prefWidth="100.0" text="Background" />
                         <Label layoutX="20.0" layoutY="42.0" prefHeight="17.0" prefWidth="150.0" text="Generation Algorithm" />
@@ -64,6 +68,8 @@
                     <!-- This is the player settings algorith, so has accel and other stuff ( also start game -->
                     <Label layoutX = "20.0" layoutY = "1">Has Acceleration?</Label>
                     <CheckBox layoutX = "20" layoutY="20" fx:id="hasAccelerationCheckbox"/>
+                    <Label layoutX="150" layoutY="1">WSC Mode</Label>
+                    <CheckBox layoutX="150" layoutY="20" fx:id="wscModeCheckbox"/>
                     <Label layoutX = "20" layoutY="40">Music Player</Label>
                     <HBox spacing="10" layoutX="20" layoutY="60" alignment="CENTER">
                         <Button fx:id="playButton" text="▶"/>
@@ -103,9 +109,8 @@
                            width="1400" height="800" >
 
 
-                        <cursor>
-                            <Cursor fx:constant="CROSSHAIR" />
-                        </cursor>
+
+
                     </GameBoard>
                 </StackPane>
             </children>

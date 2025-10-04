@@ -1,0 +1,133 @@
+/* suisei-theme.css */
+
+/* Root background & text */
+.root {
+    -fx-background-image: url("suisei.png");
+    -fx-background-color: #0a0f28; /* deep cosmic blue */
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+    -fx-text-fill: #f0f8ff; /* icy white-blue text */
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #e6f0ff; /* soft white-blue */
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #1c2a4d; /* Suisei navy blue */
+    -fx-text-fill: #f0f8ff;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4,0,0,1);
+    -fx-border-color: #3a52a1; /* brighter blue accent */
+    -fx-border-radius: 8;
+}
+
+.button:hover {
+    -fx-background-color: #3a52a1; /* vibrant Suisei blue */
+}
+
+.button:pressed {
+    -fx-background-color: #0d1b36;
+}
+
+/* Text fields & input */
+.text-field, .password-field {
+    -fx-background-color: #1c2a4d;
+    -fx-text-fill: #f0f8ff;
+    -fx-prompt-text-fill: #8ab6ff;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #3a52a1;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #5bc0ff; /* cyan accent */
+}
+
+/* ComboBox / ChoiceBox */
+.combo-box, .choice-box {
+    -fx-background-color: #1c2a4d;
+    -fx-border-color: #3a52a1;
+    -fx-border-radius: 6;
+    -fx-text-fill: #f0f8ff;
+    -fx-background-radius: 6;
+}
+
+.combo-box:hover, .choice-box:hover {
+    -fx-background-color: #3a52a1;
+}
+
+/* ListView & TableView */
+.list-view, .table-view {
+    -fx-background-color: #0a0f28;
+    -fx-control-inner-background: #0a0f28;
+    -fx-cell-hover-color: #1c2a4d;
+    -fx-text-fill: #f0f8ff;
+}
+
+/* ScrollBar */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #3a52a1;
+    -fx-background-radius: 6;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #5bc0ff; /* cyan accent */
+}
+
+/* Progress bars, sliders, etc. */
+.progress-bar .bar,
+.slider .track {
+    -fx-background-color: #5bc0ff;
+}
+
+/* ColorPicker */
+.color-picker {
+    -fx-background-color: #1c2a4d;
+    -fx-border-color: #3a52a1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #f0f8ff;
+}
+
+.color-picker:hover {
+    -fx-background-color: #3a52a1;
+}
+
+.color-picker:focused {
+    -fx-border-color: #5bc0ff;
+}
+
+/* Popup panel of ColorPicker */
+.color-palette {
+    -fx-background-color: #1c2a4d;
+    -fx-border-color: #3a52a1;
+}
+
+/* SplitPane divider */
+.split-pane:horizontal > .split-pane-divider {
+    -fx-background-color: #1c2a4d;
+    -fx-border-color: transparent;
+    -fx-padding: 0 3 0 3;
+}
+
+.split-pane:vertical > .split-pane-divider {
+    -fx-background-color: #1c2a4d;
+    -fx-border-color: transparent;
+    -fx-padding: 3 0 3 0;
+}
+
+.split-pane-divider:hover {
+    -fx-background-color: #3a52a1;
+}
+
+/* ComboBox dropdown cells */
+.combo-box .list-cell {
+    -fx-background-color: #1c2a4d;
+    -fx-text-fill: #f0f8ff;
+}

@@ -138,6 +138,7 @@ public class GameBoard extends Canvas {
      * @param cellColors Color2 color for the cell
      */
     public void updateGrid(Color2 cellColors){
+        getGraphicsContext2D().clearRect(0, 0, this.getWidth(), this.getHeight());
         this.color = cellColors;
         for (int row = 0; row < this.rows; row++) {
             for (int col = 0; col < this.cols; col++) {

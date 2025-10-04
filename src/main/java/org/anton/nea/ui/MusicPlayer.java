@@ -37,6 +37,7 @@ public class MusicPlayer {
         this.shuffleButton = shuffleButton;
         this.progressSlider = progressSlider;
         this.timeLabel = timeLabel;
+
         if (!playlist.isEmpty()) {
             loadMedia(currentIndex);
         }
@@ -118,4 +119,20 @@ public class MusicPlayer {
 
         timeLabel.setText(String.format("%02d:%02d / %02d:%02d", curMin, curSec, totMin, totSec));
     }
+    public void setPlaylist(List<String> newPlaylist) {
+        if (newPlaylist == null || newPlaylist.isEmpty()) return;
+
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.dispose();
+            mediaPlayer = null;
+        }
+        playlist.clear();
+        playlist.addAll(newPlaylist);
+        currentIndex = 0;
+        progressSlider.setValue(0);
+        timeLabel.setText("00:00 / 00:00");
+        loadMedia(currentIndex);
+    }
+
 }

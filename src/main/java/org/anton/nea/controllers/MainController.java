@@ -1,8 +1,12 @@
 package org.anton.nea.controllers;
 
 import javafx.application.Application;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import org.anton.nea.io.*;
 import org.anton.nea.maze.Player;
 import org.anton.nea.ui.MusicPlayer;
@@ -84,7 +88,7 @@ public class MainController {
             TextFieldController.makeNumberField(animationSpeedMS);
 
             List<String> songs = new ArrayList<>();
-            File folder = new File("/home/anton/IdeaProjects/computer_science_NEA/testmusic");
+            File folder = new File(getClass().getResource("/org/anton/nea/music/").getPath());
 
             if (folder.exists() && folder.isDirectory()) {
                 File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
@@ -98,15 +102,75 @@ public class MainController {
             songs.forEach(System.out::println);
 
 
-            // Initialize MusicPlayer with all UI controls
+
             musicPlayer = new MusicPlayer(
                     songs, playButton, pauseButton, nextButton,
                     loopButton, shuffleButton, progressSlider, timeLabel
             );
 
+
+
             stage.setOnCloseRequest(event -> {
                 cleanup();
             });
+
+            /*
+            THESE ARE JUST FOR FUN, PROBABLY GONNA REMOVE THIS LATER
+            ################################################################################################
+             */
+            // make custom cursor
+
+            Image cursorImage = new Image( Objects.requireNonNull(getClass().getResourceAsStream("/org/anton/nea/cursor.png")));
+            ImageCursor imageCursor = new ImageCursor(cursorImage,0,0);
+
+            wscModeCheckbox.selectedProperty().addListener((observable, wasSelected, isSelected) -> {
+                if (isSelected) {
+                    /*
+                    CHANGE MODE!!!
+                     */
+                    scene.getStylesheets().clear();
+                    scene.getStylesheets().add("/org/anton/nea/wsc.css");
+                    root.setCursor(imageCursor);
+                    musicPlayer.pause();
+                    List<String> s = new ArrayList<>();
+                    File f = new File(getClass().getResource("/org/anton/nea/wsc/").getPath());
+                    gameCanvas.updateGrid(new Color2(Color.BLACK, new Color (0.2, 0, 0.2, 0) ));
+
+                    if (f.exists() && f.isDirectory()) {
+                        File[] files = f.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
+                        if (files != null) {
+                            for (File file : files) {
+                                s.add(file.getAbsolutePath());
+                            }
+                        }
+                    }
+                    musicPlayer.setPlaylist(s);
+                    musicPlayer.play();
+                }
+                else{
+                    if (folder.exists() && folder.isDirectory()) {
+                        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
+                        if (files != null) {
+                            for (File file : files) {
+                                songs.add(file.getAbsolutePath());
+                            }
+                        }
+                    }
+                    scene.getStylesheets().clear();
+                    OnStartup.SetCssTheme(scene);
+                    root.setCursor(Cursor.DEFAULT);
+                    musicPlayer.pause();
+                    musicPlayer.setPlaylist(songs);
+                    musicPlayer.play();
+                    gameCanvas.updateGrid(new Color2(Color.BLACK, Color.WHITE));
+                }
+            });
+            /*
+            ################################################################################################
+            ################################################################################################
+             */
+
+
 
         } catch (Exception e) {
             Platform.runLater(() -> {
@@ -134,7 +198,7 @@ public class MainController {
     @FXML private Label timeLabel;
     @FXML private Button shuffleButton;
     @FXML private Button loopButton;
-
+    @FXML private CheckBox wscModeCheckbox;
     // BUTTONS vvvvvv
     /**
      * Mapping string to generator object type
