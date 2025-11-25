@@ -3,6 +3,9 @@
 /* Root background & text */
 .root {
     -fx-background-image: url("suisei.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
     -fx-background-color: #0a0f28; /* deep cosmic blue */
     -fx-font-family: "Segoe UI", "Roboto", sans-serif;
     -fx-text-fill: #f0f8ff; /* icy white-blue text */

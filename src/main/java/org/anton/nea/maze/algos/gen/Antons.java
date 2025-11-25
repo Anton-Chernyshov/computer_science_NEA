@@ -30,12 +30,10 @@ public class Antons extends MazeGenerator {
                 Random rand = new Random(seed);
                 boolean[][] visited = new boolean[rows][cols];
 
-                // Directions: up, down, left, right
                 int[] dr = {-1, 1, 0, 0};
                 int[] dc = {0, 0, -1, 1};
                 int[] wallBit = {0x8, 0x4, 0x2, 0x1};
 
-                // Priority queue for Dijkstra: [cost, row, col, parentRow, parentCol, dir]
                 PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
                 int startRow = 0, startCol = 0;
                 pq.add(new int[]{0, startRow, startCol, -1, -1, -1});
@@ -50,8 +48,6 @@ public class Antons extends MazeGenerator {
 
                     if (visited[r][c]) continue;
                     visited[r][c] = true;
-
-                    // Remove wall between parent and current cell
                     if (pr != -1) {
                         Cell currCell = cellRepr[r][c];
                         Cell parentCell = cellRepr[pr][pc];
@@ -71,13 +67,11 @@ public class Antons extends MazeGenerator {
                         cellRepr[pr][pc] = parentCell;
                     }
 
-                    // Explore neighbors with random weights
                     for (int i = 0; i < 4; i++) {
                         int nr = r + dr[i];
                         int nc = c + dc[i];
                         if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !visited[nr][nc]) {
-                            // Random weight for quirky paths
-                            int weight = 1 + rand.nextInt(10000); // tweak max for more twistiness
+                            int weight = 1 + rand.nextInt(69420); // fuckaah heuristic
                             pq.add(new int[]{weight, nr, nc, r, c, i});
                         }
                     }

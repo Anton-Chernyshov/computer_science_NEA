@@ -16,16 +16,17 @@ import java.util.List;
 
 public class GameBoard extends Canvas {
     /** will always be 40 */
-    private final int rows;
+    private  int rows;
     /** always gonna be 70 */
-    private final int cols;
+    private  int cols;
     /**The actual maze cells, represented as a 2d array*/
     Cell[][] cellRepr;
     /** Cellsize is 20*/
-    private final int cellSize;
+    private  int cellSize;
     /** The color of the gameboard going {@link Color2#ColorA is wall}*/
     private Color2 color;
 
+    private Color[][] gameBoardColorRepr;
 
 
 
@@ -44,13 +45,18 @@ public class GameBoard extends Canvas {
          but then remembered that i was actually loading this using FXML, so i kinda dont need them.. ALSO this makes it easy asf to change stuff so im keeping it yay!!
         */
         // width is 1400, height is 800
-        this.rows =80; // cells //20
-        this.cols = 140;  //35
+        this.rows =40; // cells //20
+        this.cols = 70;  //35
         this.cellSize = (int) (1400/this.cols); // px //40
         this.cellRepr = new Cell[rows][cols];
 
     }
-
+    private void recalculateCellSize(){
+        this.cellSize = (int) (1400/this.cols);
+    }
+    private void recalculateCellRepr(){
+        this.cellRepr = new Cell[rows][cols];
+    }
     /**
      * generates a checkerboard according to the rows and cols passed upon {@link GameBoard} creation
      * @param mainColor Primary color for checkerboard
@@ -90,21 +96,44 @@ public class GameBoard extends Canvas {
     public int getCols() {return cols;}
     public int getCellSize() {return cellSize;}
     public Color2 getColor() {return color;}
-    public Color getColorAt(int x, int y){
-        // color at the FUCKING X Y PIXEL NOT ROW
-        // stoile this beautiful bit of code from my mouse handler
+
+    /**
+     * loads the color of each pixel into {@link #gameBoardColorRepr}}
+     * This is VERY SLOW to run, so dont shove this in a gameloop
+     */
+    public void updateGameBoardColorRepr(){
         WritableImage snapshot = new WritableImage((int)this.getWidth(), (int)this.getHeight());
         this.snapshot(null, snapshot);
 
         PixelReader reader = snapshot.getPixelReader();
         if (reader != null) {
-
-            if (x >= 0 && x < snapshot.getWidth() && y >= 0 && y < snapshot.getHeight()) {
-                return reader.getColor(x, y);
-
+            gameBoardColorRepr = new Color[rows][cols];
+            for (int row = 0; row < rows; row++) {
+                for (int col = 0; col < cols; col++) {
+                    gameBoardColorRepr[row][col] = reader.getColor(col*20, row*20);
+                }
             }
         }
-        return null; // out of range
+
+    }
+    public Color getColorAt(int x, int y){
+        // color at the FUCKING X Y PIXEL NOT ROW
+        // stoile this beautiful bit of code from my mouse handler
+
+            return gameBoardColorRepr[y][x];
+
+//        WritableImage snapshot = new WritableImage((int)this.getWidth(), (int)this.getHeight());
+//        this.snapshot(null, snapshot);
+//
+//        PixelReader reader = snapshot.getPixelReader();
+//        if (reader != null) {
+//
+//            if (x >= 0 && x < snapshot.getWidth() && y >= 0 && y < snapshot.getHeight()) {
+//                return reader.getColor(x, y);
+//
+//            }
+//        }
+//        return null; // out of range
     }
     private MovementHandler handler;
     public void setMovementHandler(MovementHandler handler) {this.handler = handler;}
@@ -146,7 +175,7 @@ public class GameBoard extends Canvas {
             }
         }
         drawStartAndEndPoints(new Color2(cellColors.ColorA, Color.GREEN), new Color2(cellColors.ColorA, Color.RED));
-
+        updateGameBoardColorRepr();
     }
 
 
@@ -179,8 +208,11 @@ public class GameBoard extends Canvas {
 
 
     }
-
-
-
+    public void resizeMaze(int rows, int cols){
+        this.rows = rows;
+        this.cols = cols;
+        recalculateCellSize();
+        recalculateCellRepr();
+    }
 
 }

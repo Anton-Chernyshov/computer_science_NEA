@@ -25,6 +25,7 @@ public class Vector2 {
     public double magnitude(){
         return Math.sqrt(x * x + y * y);
     }
+    public boolean isNotZero() { return this.x != 0 || this.y != 0; }
     public boolean isZero() { return this.x == 0 && this.y == 0; }
     public boolean isEqual(Vector2 other){return this.x == other.x && this.y == other.y; }
 

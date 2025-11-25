@@ -36,6 +36,7 @@
                                     <String fx:value="Antons"/>
                                     <String fx:value="RecursiveBacktrack"/>
                                     <String fx:value="Prims"/>
+                                        <String fx:value="Randomizer"/>
                                     </FXCollections>
                                 </items>
                         </ComboBox>
@@ -60,8 +61,18 @@
                                 <Font size="18.0" />
                             </font>
                         </Label>
+
                         <Button layoutX="20.0" layoutY="218.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="100.0" text="Generate" onAction="#handleRenderButtonAction" />
                         <Button layoutX="180.0" layoutY="218.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="100.0" text="New Maze" onAction="#handleGenerateNewButtonAction" />
+                        <!-- Sliders and Boxes to modify stuff -->
+                        <Slider fx:id = "widthSlider"/>
+                        <Slider fx:id = "heightSlider"/>
+                        <Slider fx:id = "boxSizeSlider"/>
+                        <TextField fx:id = "widthValue" prefWidth="50" layoutX="180" layoutY="218" text="70"/>
+                        <TextField fx:id = "heightValue" prefWidth="50" layoutX="150" layoutY="218" text="40"/>
+                        <TextField fx:id = "boxSizeValue" prefWidth="50" layoutX="120" layoutY="218" text="40"/>
+
+
                     </children>
                 </Pane>
                 <Pane layoutY="350.0" prefHeight="300.0" prefWidth="300.0">
@@ -70,6 +81,8 @@
                     <CheckBox layoutX = "20" layoutY="20" fx:id="hasAccelerationCheckbox"/>
                     <Label layoutX="150" layoutY="1">WSC Mode</Label>
                     <CheckBox layoutX="150" layoutY="20" fx:id="wscModeCheckbox"/>
+                    <CheckBox layoutX="200" layoutY="20" fx:id="barneyModeCheckbox"/>
+
                     <Label layoutX = "20" layoutY="40">Music Player</Label>
                     <HBox spacing="10" layoutX="20" layoutY="60" alignment="CENTER">
                         <Button fx:id="playButton" text="▶"/>

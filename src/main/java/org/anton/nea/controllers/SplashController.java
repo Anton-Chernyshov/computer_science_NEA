@@ -23,7 +23,7 @@ import java.io.IOException;
 
 public class SplashController {
     private final Stage stage;
-    private static final int splashShowLength = 2; // how long the splash screen is displayed for
+    private static final int splashShowLength = 1; // how long the splash screen is displayed for
     public SplashController(Stage stage) {
         this.stage = stage;
     }
@@ -32,7 +32,7 @@ public class SplashController {
     public void loadSplash(Runnable onFinished) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/anton/nea/splash.fxml"));
-            loader.setController(this); // required when manually injecting
+            loader.setController(this); // required when manually injecting a controller
 
             Parent root = loader.load();
 
@@ -49,7 +49,7 @@ public class SplashController {
             gc.setFill(Color.LIGHTGRAY);
             gc.setFont(Font.font(36));
 
-            for (int y = 0; y < 1200; y += 50) {
+            for (int y = 0; y < 1200; y += 50) { // get the funny text in the background
                 for (int x = 0; x < 1900; x += 200) {
                     gc.fillText("I HATE NEA", x, y);
                 }
@@ -57,7 +57,7 @@ public class SplashController {
 
             bg.getChildren().add(0, canvas);
             // add at the back
-            // Delay then call callback to move on
+            // delay then call callback to move on
             PauseTransition delay = new PauseTransition(Duration.seconds(splashShowLength));
             delay.setOnFinished(e -> onFinished.run());
             delay.play();

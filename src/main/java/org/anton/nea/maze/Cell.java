@@ -19,7 +19,6 @@ public class Cell {
     public int getCell(){
         return cellValue;
     }
-
     // cell value is a number from 0x0 to 0xF , representing a 4 bit number UDLR ( showing which wall is active )
     // SO:
     // up = 0x8 down = 0x4 left 0x2 right 0x1

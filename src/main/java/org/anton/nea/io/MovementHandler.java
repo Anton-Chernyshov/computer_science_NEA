@@ -4,9 +4,6 @@ import javafx.animation.AnimationTimer;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.CheckBox;
-import javafx.scene.input.KeyCode;
-import org.anton.nea.maze.AnimationRenderer;
-import org.anton.nea.maze.Cell;
 import org.anton.nea.maze.GameBoard;
 import org.anton.nea.maze.Player;
 import org.anton.nea.util.Vector2;
@@ -58,7 +55,7 @@ public abstract class MovementHandler {
         but the drawring is done on an integer based grid, so if any of the v
          */
         if (hasAcceleration.get()) {
-            if (!direction.isZero()) {
+            if (direction.isNotZero()) {
                 // accelerate
                 Vector2 desiredVelocity = direction.normalize().multiply(acceleration);
                 velocity = velocity.add(desiredVelocity);
@@ -74,7 +71,7 @@ public abstract class MovementHandler {
             }
             moveVector(velocity);
         } else {
-            if (!direction.isZero()) {
+            if (direction.isNotZero()) {
                 moveVector(direction.normalize().multiply(speed));
 
             }

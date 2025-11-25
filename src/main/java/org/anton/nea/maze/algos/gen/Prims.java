@@ -56,8 +56,6 @@ public class Prims extends MazeGenerator {
 
             if (visited[r][c]) continue;
             visited[r][c] = true;
-
-            // Remove wall between parent and current cell
             Cell currCell = cellRepr[r][c];
             Cell parentCell = cellRepr[pr][pc];
             int oppositeDir = switch (dir) {

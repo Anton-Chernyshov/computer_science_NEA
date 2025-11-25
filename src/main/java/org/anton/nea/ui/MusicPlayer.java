@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 public class MusicPlayer {
+    private final String defaultMusicFolder = "resources/org/anton/nea/music";
     private MediaPlayer mediaPlayer;
     private List<String> playlist;
     private int currentIndex = 0;
@@ -24,7 +25,7 @@ public class MusicPlayer {
     private final Button shuffleButton;
     private final Slider progressSlider;
     private final Label timeLabel;
-    private final AnimationTimer timer;
+
     public MusicPlayer(List<String> playlist,
                        Button playButton, Button pauseButton, Button nextButton,
                        Button loopButton, Button shuffleButton,
@@ -42,7 +43,7 @@ public class MusicPlayer {
             loadMedia(currentIndex);
         }
         setupControls();
-        timer = new AnimationTimer() {
+        AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 if (mediaPlayer != null) {
@@ -78,7 +79,7 @@ public class MusicPlayer {
             }
         });
     }
-    private void loadMedia(int index) {
+    private void loadMedia(int index ) {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
         }
@@ -119,7 +120,51 @@ public class MusicPlayer {
 
         timeLabel.setText(String.format("%02d:%02d / %02d:%02d", curMin, curSec, totMin, totSec));
     }
+
+    /**
+     * right so this is the NEW playlist function, for loading from a folder directly
+     */
+    public void setPlaylist(String folderPath) {
+        if (folderPath == null || folderPath.isEmpty()) return;
+
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.dispose();
+            mediaPlayer = null;
+        }
+
+        playlist.clear();
+        File folder = new File(folderPath);
+        if (!folder.exists() || !folder.isDirectory()) return;
+
+        File[] files = folder.listFiles();
+        if (files == null) return;
+
+        for (File file : files) {
+            if (file.isFile() && file.getName().endsWith(".mp3")) {
+                playlist.add(file.getAbsolutePath());
+            }
+        }
+
+        currentIndex = 0;
+        progressSlider.setValue(0);
+        timeLabel.setText("00:00 / 00:00");
+        loadMedia(currentIndex);
+    }
+
+    /**
+     * Call setPlaylist with defaultParams.
+     */
+    public void setPlaylist(){
+        setPlaylist(defaultMusicFolder);
+    }
+
+    /**
+    Loads playlist (a list of file paths)
+     */
+    @Deprecated
     public void setPlaylist(List<String> newPlaylist) {
+
         if (newPlaylist == null || newPlaylist.isEmpty()) return;
 
         if (mediaPlayer != null) {

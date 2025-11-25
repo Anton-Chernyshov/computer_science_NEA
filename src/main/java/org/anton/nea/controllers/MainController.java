@@ -47,16 +47,17 @@ public class MainController {
     }
 
     public void loadMain() {
-        try {
+        try { // this is for loading controller drivers
             System.out.println(OnStartup.getOS());
             if (OnStartup.getOS() == 0){System.load(new File("SDL2.dll").getAbsolutePath());} // fuckin external stuff
             else if (OnStartup.getOS() == 2){
-                System.out.println("Linux users, make sure to install SDL2 pls :)) ");
+                System.out.println("Linux users, make sure to install SDL2 if u want controller support pls :)) ");
             }
             else{
                 TimeUnit.SECONDS.sleep(9999999); // punish user for using macOS
                 throw new RuntimeException("mac user");
             }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/anton/nea/main.fxml"));
             loader.setController(this);
             Parent root = loader.load();
@@ -70,7 +71,7 @@ public class MainController {
 
             // load configs from files
             Config config = Config.getInstance();
-            OnStartup.RunOnStartup(scene);
+            OnStartup.RunOnStartup(scene); // sets theme based on OS default
             Timer timer = new Timer(timerLabel);
             // Movement handlers
             handleGenerateNewButtonAction(null); // draws maze on startup
@@ -86,18 +87,21 @@ public class MainController {
             // make text fields limited on input
             TextFieldController.makeHexField(seedValue);
             TextFieldController.makeNumberField(animationSpeedMS);
+             // TODO: redo music loading to be handled by creating a new MusicPlayer class
+            List<String> songs = new ArrayList<>(); // this all does music loading.
 
-            List<String> songs = new ArrayList<>();
-            File folder = new File(getClass().getResource("/org/anton/nea/music/").getPath());
-
-            if (folder.exists() && folder.isDirectory()) {
-                File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
-                if (files != null) {
-                    for (File file : files) {
-                        songs.add(file.getAbsolutePath());
+                File folder = new File(Objects.requireNonNull(getClass().getResource("/org/anton/nea/music/")).getPath());
+                if (folder.exists() && folder.isDirectory()) {
+                    File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
+                    if (files != null) {
+                        for (File file : files) {
+                            songs.add(file.getAbsolutePath());
+                        }
                     }
                 }
-            }
+
+
+
             System.out.println("Loaded songs: " + songs.size());
             songs.forEach(System.out::println);
 
@@ -107,7 +111,7 @@ public class MainController {
                     songs, playButton, pauseButton, nextButton,
                     loopButton, shuffleButton, progressSlider, timeLabel
             );
-
+            musicPlayer.setPlaylist();
 
 
             stage.setOnCloseRequest(event -> {
@@ -122,49 +126,92 @@ public class MainController {
 
             Image cursorImage = new Image( Objects.requireNonNull(getClass().getResourceAsStream("/org/anton/nea/cursor.png")));
             ImageCursor imageCursor = new ImageCursor(cursorImage,0,0);
-
-            wscModeCheckbox.selectedProperty().addListener((observable, wasSelected, isSelected) -> {
-                if (isSelected) {
+            try {
+                wscModeCheckbox.selectedProperty().addListener((observable, wasSelected, isSelected) -> {
+                    if (isSelected) {
                     /*
                     CHANGE MODE!!!
                      */
-                    scene.getStylesheets().clear();
-                    scene.getStylesheets().add("/org/anton/nea/wsc.css");
-                    root.setCursor(imageCursor);
-                    musicPlayer.pause();
-                    List<String> s = new ArrayList<>();
-                    File f = new File(getClass().getResource("/org/anton/nea/wsc/").getPath());
-                    gameCanvas.updateGrid(new Color2(Color.BLACK, new Color (0.2, 0, 0.2, 0) ));
+                        scene.getStylesheets().clear();
+                        scene.getStylesheets().add("/org/anton/nea/wsc.css");
+                        root.setCursor(imageCursor);
+                        musicPlayer.pause();
+                        List<String> s = new ArrayList<>();
+                        File f = new File(getClass().getResource("/org/anton/nea/wsc/").getPath());
+                        gameCanvas.updateGrid(new Color2(Color.BLACK, new Color(0.2, 0, 0.2, 0)));
 
-                    if (f.exists() && f.isDirectory()) {
-                        File[] files = f.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
-                        if (files != null) {
-                            for (File file : files) {
-                                s.add(file.getAbsolutePath());
+                        if (f.exists() && f.isDirectory()) {
+                            File[] files = f.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
+                            if (files != null) {
+                                for (File file : files) {
+                                    s.add(file.getAbsolutePath());
+                                }
                             }
                         }
-                    }
-                    musicPlayer.setPlaylist(s);
-                    musicPlayer.play();
-                }
-                else{
-                    if (folder.exists() && folder.isDirectory()) {
-                        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
-                        if (files != null) {
-                            for (File file : files) {
-                                songs.add(file.getAbsolutePath());
+                        musicPlayer.setPlaylist(s);
+                        musicPlayer.play();
+                    } else {
+                        if (folder.exists() && folder.isDirectory()) {
+                            File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
+                            if (files != null) {
+                                for (File file : files) {
+                                    songs.add(file.getAbsolutePath());
+                                }
                             }
                         }
+                        scene.getStylesheets().clear();
+                        OnStartup.SetCssTheme(scene);
+                        root.setCursor(Cursor.DEFAULT);
+                        musicPlayer.pause();
+                        musicPlayer.setPlaylist(songs);
+                        musicPlayer.play();
+                        gameCanvas.updateGrid(new Color2(Color.BLACK, Color.WHITE));
                     }
-                    scene.getStylesheets().clear();
-                    OnStartup.SetCssTheme(scene);
-                    root.setCursor(Cursor.DEFAULT);
-                    musicPlayer.pause();
-                    musicPlayer.setPlaylist(songs);
-                    musicPlayer.play();
-                    gameCanvas.updateGrid(new Color2(Color.BLACK, Color.WHITE));
-                }
-            });
+                });
+                barneyModeCheckbox.selectedProperty().addListener((observable, wasSelected, isSelected) -> {
+                    if (isSelected) {
+                    /*
+                    CHANGE MODE!!!
+                     */
+                        scene.getStylesheets().clear();
+                        scene.getStylesheets().add("/org/anton/nea/barney.css");
+                        root.setCursor(imageCursor);
+                        musicPlayer.pause();
+                        List<String> s = new ArrayList<>();
+                        File f = new File(getClass().getResource("/org/anton/nea/barney/").getPath());
+                        gameCanvas.updateGrid(new Color2(Color.BLACK, new Color(0.2, 0, 0.2, 0)));
+
+                        if (f.exists() && f.isDirectory()) {
+                            File[] files = f.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
+                            if (files != null) {
+                                for (File file : files) {
+                                    s.add(file.getAbsolutePath());
+                                }
+                            }
+                        }
+                        musicPlayer.setPlaylist(s);
+                        musicPlayer.play();
+                    } else {
+                        if (folder.exists() && folder.isDirectory()) {
+                            File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
+                            if (files != null) {
+                                for (File file : files) {
+                                    songs.add(file.getAbsolutePath());
+                                }
+                            }
+                        }
+                        scene.getStylesheets().clear();
+                        OnStartup.SetCssTheme(scene);
+                        root.setCursor(Cursor.DEFAULT);
+                        musicPlayer.pause();
+                        musicPlayer.setPlaylist(songs);
+                        musicPlayer.play();
+                        gameCanvas.updateGrid(new Color2(Color.BLACK, Color.WHITE));
+                    }
+                });
+            }
+            catch (NullPointerException e) {ErrorWindow.show(e);}
+
             /*
             ################################################################################################
             ################################################################################################
@@ -199,6 +246,17 @@ public class MainController {
     @FXML private Button shuffleButton;
     @FXML private Button loopButton;
     @FXML private CheckBox wscModeCheckbox;
+    @FXML private CheckBox barneyModeCheckbox;
+    @FXML private Slider widthSlider;
+    @FXML private Slider heightSlider;
+    @FXML private Slider boxSizeSlider;
+    @FXML private TextField widthValue;
+    @FXML private TextField heightValue;
+    @FXML private TextField boxSizeValue;
+
+
+
+
     // BUTTONS vvvvvv
     /**
      * Mapping string to generator object type
@@ -206,7 +264,8 @@ public class MainController {
     private static final Map<String, Supplier<MazeGenerator>> MazeGenerator = Map.of(
             "Prims", Prims::new,
             "Antons", Antons::new,
-            "RecursiveBacktrack", RecursiveBacktrack::new
+            "RecursiveBacktrack", RecursiveBacktrack::new,
+            "Randomizer", Randomizer::new
     );
     private static final Map<String, Supplier<MazeSolver>> MazeSolver = Map.of(
       "Astar", org.anton.nea.maze.algos.solve.Astar::new,
@@ -240,6 +299,9 @@ public class MainController {
             return null;
         }
     }
+    /*
+    BUTTON HANDLERS
+     */
     @FXML
     private void handleRenderButtonAction(ActionEvent event) {
         gameCanvas.drawMaze(
@@ -262,13 +324,11 @@ public class MainController {
     }
     @FXML
     private void handleSolveButtonAction(ActionEvent event) {
-
         gameCanvas.showSolvedMaze(
                 Objects.requireNonNull(stringToAlgoGenerator(solveAlgoChoiceBox.getValue())), new Color2(colorPickerWall.getValue(), colorPickerBackground.getValue()), Integer.parseInt(animationSpeedMS.getText()));
     }
 
+
+
+
 }
-
-
-
-

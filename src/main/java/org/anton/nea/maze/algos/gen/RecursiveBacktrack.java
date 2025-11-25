@@ -3,6 +3,7 @@ package org.anton.nea.maze.algos.gen;
 import org.anton.nea.maze.Cell;
 import org.anton.nea.maze.GameBoard;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Stack;
 
@@ -72,5 +73,6 @@ public class RecursiveBacktrack extends MazeGenerator {
             }
         }
         drawStartAndEndCells(cellRepr);
+
     }
 }

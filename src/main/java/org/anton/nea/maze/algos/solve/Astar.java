@@ -18,7 +18,7 @@ public class Astar extends MazeSolver {
 
 
             PriorityQueue<Cell> pq = new PriorityQueue<>(
-                    Comparator.comparingInt(c -> dist.get(c) + (int)(Math.pow(getHeuristicValue(c,goal), 2))
+                    Comparator.comparingInt(c -> dist.get(c) + (int)(Math.pow(getHeuristicValue(c,goal), 5) + 1000)
             ));
 
             for (int r = 0; r < rows; r++) {
@@ -85,8 +85,6 @@ public class Astar extends MazeSolver {
     private int getHeuristicValue(Cell current, Cell goal){
             return Math.abs(current.getRow() - goal.getRow()) + Math.abs(current.getCol() - goal.getCol());
         }
-
-
         // expose the order of exploration for animations
         @Override
         public List<Cell> getExploredOrder() {

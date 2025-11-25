@@ -102,7 +102,6 @@ public class Player {
         double[][] rotmat = HelperFuncs.getRotationalMatrix(theta);
 
 
-
         /* do the actual rotation thingy */
 
         if (rotation < 0) rotation = 0;
@@ -143,13 +142,13 @@ public class Player {
                     // PER       FRAME. @60FPS
                     // WHAT THE FUCK WAS I COOKING
                     // Ok to be honest, the actual collision logic is *fine* ish, its just the checkcollisionAt function is HORRIBLY ineficient
-//                    if (!checkCollisionAt(drawX, drawY)) {
-//                        gameboard.drawPixel(drawX, drawY, characterDefinition[i][j]);
-//
-//                    } else {
-//                        // handle collision (stop movement, reset, etc)
-//                        handleCollision(drawX, drawY);
-//                    }
+                    if (!checkCollisionAt(drawX, drawY)) {
+                        gameboard.drawPixel(drawX, drawY, characterDefinition[i][j]);
+
+                    } else {
+                        // handle collision (stop movement, reset, etc)
+                        handleCollision(drawX, drawY);
+                    }
 
                 }
 
@@ -205,5 +204,8 @@ public class Player {
     }
     private void handleCollision(int drawX, int drawY) {
         //
+         /*
+         Stop timer, teleport back to the start
+          */
     }
 }

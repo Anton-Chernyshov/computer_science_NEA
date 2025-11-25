@@ -1,7 +1,7 @@
 plugins {
     id 'application'
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '8.1.1' // or latest
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 def osName = System.getProperty("os.name").toLowerCase()
 def platform
@@ -13,11 +13,11 @@ if (osName.contains("win")) {
     platform = "linux"
 }
 
-def javafxVersion = "24.0.2"
+def javafxVersion = "21.0.2"
 
 
 group = 'org.anton.nea'
-version = '1.0'
+version = '1.1.0-251120'
 
 repositories {
     mavenCentral()
@@ -25,7 +25,7 @@ repositories {
 }
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(24)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
