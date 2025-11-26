@@ -58,13 +58,22 @@ public class SplashController {
             bg.getChildren().add(0, canvas);
             // add at the back
             // delay then call callback to move on
+
             PauseTransition delay = new PauseTransition(Duration.seconds(splashShowLength));
-            delay.setOnFinished(e -> onFinished.run());
+
+            delay.setOnFinished(e -> Platform.runLater(onFinished));
+
+
+
+
             delay.play();
+
+
 
         } catch (IOException e) {
             Platform.runLater(() -> {
-                ErrorWindow.show(e);
+                // ignore rn
+               // ErrorWindow.show(e);
             });
         }
     }

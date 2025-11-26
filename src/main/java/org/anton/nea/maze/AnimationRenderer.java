@@ -30,12 +30,13 @@ public class AnimationRenderer {
      *Right this bug took me about 2 hours to figure out. and I SWEAR TO GOD im so happy its done.
      *the delay between drawing explored and path was weirdly long, so after some investigation and basically rereading line by line my code, i realised, what it actually does is:
      *adds ALL VISITED NODES, IN ORDER, and this is the important part : EVEN THE BACKTRACKS. so i was redrawing over backtracked cells, and i didnt realise because i was drawring
-     * in the same FUCKING COLOR.
+     * in the same  COLOR.
      *so . have a look inside {@link org.anton.nea.maze.algos.solve.Dijkstra#solve }
      */
     public static void showSolvingAnimation(GameBoard gameBoard, MazeSolver solver, int animationSpeed) {
 
-        gameBoard.getMovementHandler().pause();
+        // TODO: remove this comment, this is for the deadline since i need it to work via mouse. REDO IT LATER
+        //gameBoard.getMovementHandler().pause();
 
         new Thread(() -> {
             List<Cell> path = solver.solve(gameBoard.cellRepr, gameBoard.getRows(), gameBoard.getCols());
@@ -66,8 +67,11 @@ public class AnimationRenderer {
 
             timeline.play();
             PauseTransition pause = new PauseTransition(Duration.millis(offset + path.size() * animationSpeed + animationSpeed*20));
-            pause.setOnFinished(e -> {        gameBoard.getMovementHandler().resume();
-            });
+//            TODO: uncomment (same as up top)
+//            pause.setOnFinished(e -> {        gameBoard.getMovementHandler().resume();
+//            });
+            // This is to make sure the maze gets cleared after
+            pause.setOnFinished(e -> {Duration.millis(500); gameBoard.refresh();});
             pause.play();
 
         }).start();

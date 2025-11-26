@@ -32,7 +32,7 @@ public class Dijkstra extends MazeSolver {
             Cell current = pq.poll();
 
             if (!visited.add(current)) {
-                continue; // this fuckass fix took 2 hrs. 1 LINE OF CODE to ensure its the same
+                continue; // this fix took 2 hrs. 1 LINE OF CODE to ensure its the same
             }
             exploredOrder.add(current);
 
@@ -70,7 +70,7 @@ public class Dijkstra extends MazeSolver {
         int c = cell.getCol();
 
         if (r < 0 || r >= rows || c < 0 || c >= cols) {
-            throw new IllegalStateException("Cell coordinates out of bounds: r=" + r + ", c=" + c);
+            throw new IllegalStateException("out of range" +r +c );
         }
 
         if (!cell.hasUp() && r > 0) neighbors.add(grid[r - 1][c]);

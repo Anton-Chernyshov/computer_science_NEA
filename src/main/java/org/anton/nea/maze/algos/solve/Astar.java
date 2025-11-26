@@ -33,7 +33,7 @@ public class Astar extends MazeSolver {
             while (!pq.isEmpty()) {
                 Cell current = pq.poll();
                 if (!visited.add(current)) {
-                    continue; // this fuckass fix took 2 hrs. 1 LINE OF CODE to ensure its the same
+                    continue; // this fix took 2 hrs. 1 LINE OF CODE to ensure its the same
                 }
                 exploredOrder.add(current);
                 if (current == goal) {return reconstructPath(cameFrom, current);}

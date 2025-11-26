@@ -1,7 +1,9 @@
 package org.anton.nea;
 
+import javafx.application.Platform;
 import org.anton.nea.controllers.MainController;
 import org.anton.nea.controllers.SplashController;
+import org.anton.nea.controllers.HomeController;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -13,12 +15,31 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Create controllers manually
-        SplashController splashController = new SplashController(primaryStage);
-        MainController mainController = new MainController(primaryStage);
+        Stage splashStage = new Stage();
+        SplashController splashController = new SplashController(splashStage);
 
-        // Load splash screen, then run main screen
-        splashController.loadSplash(mainController::loadMain);
+        splashController.loadSplash(() -> {
+
+            Platform.runLater(() -> {
+                // spash -> home
+                splashStage.close();
+
+                Stage homeStage = new Stage();
+                HomeController homeController = new HomeController(homeStage);
+
+                homeController.loadHome(() -> {
+                    // home -> main
+                    Platform.runLater(() -> {
+                        homeStage.close();
+
+                        Stage mainStage = new Stage();
+                        MainController mainController = new MainController(mainStage);
+                        mainController.loadMain();
+                    });
+                });
+            });
+
+        });
     }
 
     public static void main(String[] args) {

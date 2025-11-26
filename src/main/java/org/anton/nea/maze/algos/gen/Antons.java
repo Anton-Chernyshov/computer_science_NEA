@@ -71,7 +71,7 @@ public class Antons extends MazeGenerator {
                         int nr = r + dr[i];
                         int nc = c + dc[i];
                         if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !visited[nr][nc]) {
-                            int weight = 1 + rand.nextInt(69420); // fuckaah heuristic
+                            int weight = 1 + rand.nextInt(69420); // dumbaah heuristic
                             pq.add(new int[]{weight, nr, nc, r, c, i});
                         }
                     }

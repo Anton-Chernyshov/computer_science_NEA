@@ -32,7 +32,7 @@ public class ControllerHandler extends MovementHandler {
         super(gameBoard, player, scene, checkbox);
 
         controllers.initSDLGamepad();
-        state = controllers.getState(0); // first controller, only doing 1 rn, however i *might* add support for many players ( LOCALLY IM NOT FUCKING DOING MULTIPLAYER )
+        state = controllers.getState(0); // first controller, only doing 1 rn, however i *might* add support for many players ( LOCALLY IM NOT DOING MULTIPLAYER )
         if (state.isConnected) {
             float x = state.leftStickX;
             float y = state.leftStickY;

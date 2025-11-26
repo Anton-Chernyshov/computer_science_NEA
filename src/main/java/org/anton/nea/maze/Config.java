@@ -1,5 +1,6 @@
 package org.anton.nea.maze;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.anton.nea.ui.ErrorWindow;
 
 import javafx.application.Platform;
@@ -28,7 +29,6 @@ public class Config {
     private static Config myInstance;
 
     private Config(){
-
             try (InputStream input = Config.class.getResourceAsStream("/org/anton/nea/config.properties")){
                 if (input == null) throw new RuntimeException("config.properties not found");
                 prop.load(input);
@@ -38,6 +38,7 @@ public class Config {
                     ErrorWindow.show(e);
                 });
             }
+        throw new UnsupportedOperationException("Not implemented yet");
 
     }
 
@@ -56,7 +57,7 @@ public class Config {
         return Integer.parseInt(prop.getProperty(key));
     }
     public Color getColor(String key){
-        // fuck me i hate this, for some reason it wasnt working so i need to fully sanitize it, even though .getProperty *SHOULD* do it???
+        //  me i hate this, for some reason it wasnt working so i need to fully sanitize it, even though .getProperty *SHOULD* do it???
         // ok nvm i was being stupid ( wrong .properties path... ) BUT im leaving the comment because it shows my "Iterative progress" so JER goes "oh my anton u have done so well" or whatever
         // hes probably gonna moan at us for a double period again
         // boys why havent you finished your NEA

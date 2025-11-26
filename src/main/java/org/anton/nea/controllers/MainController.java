@@ -45,11 +45,118 @@ public class MainController {
     public MainController(Stage stage) {
         this.stage = stage;
     }
+    private boolean updatingWidth = false; // "locks"
+    private boolean updatingHeight = false;
+    @FXML
+    private void initialize() {
+        algorithmChoiceBox.getSelectionModel().selectFirst();
+        solveAlgoChoiceBox.getSelectionModel().selectFirst();
+        handleGenerateNewButtonAction(null); // draws maze on startup
+        // make text fields limited on input
+        TextFieldController.makeHexField(seedValue);
+        TextFieldController.makeNumberField(animationSpeedMS);
+
+
+
+        /*
+        Sliders and Text boxes (idk)
+         */
+
+        // sets textbox value from slder
+        widthSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (updatingWidth) return;
+
+            updatingHeight = true;
+
+            int w = newVal.intValue();
+            int h = Math.round(w * 4f / 7f);
+
+            widthValue.setText(String.valueOf(w));
+            heightSlider.setValue(h);
+            heightValue.setText(String.valueOf(h));
+
+            gameCanvas.setCols(w);
+            gameCanvas.setRows(h);
+            gameCanvas.refresh();
+
+            updatingHeight = false;
+        });
+
+        widthValue.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (updatingWidth) return;
+
+            try {
+                updatingHeight = true;
+
+                int w = Integer.parseInt(newVal);
+                int h = Math.round(w * 4f / 7f);
+
+                widthSlider.setValue(w);
+                heightSlider.setValue(h);
+                heightValue.setText(String.valueOf(h));
+
+                gameCanvas.setCols(w);
+                gameCanvas.setRows(h);
+                gameCanvas.refresh();
+
+                updatingHeight = false;
+
+            } catch (NumberFormatException ignored) {}
+        });
+       // same for width
+        heightSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (updatingHeight) return;
+
+            updatingWidth = true;
+
+            int h = newVal.intValue();
+            int w = Math.round(h * 7f / 4f);
+
+            heightValue.setText(String.valueOf(h));
+            widthSlider.setValue(w);
+            widthValue.setText(String.valueOf(w));
+
+            gameCanvas.setCols(w);
+            gameCanvas.setRows(h);
+            gameCanvas.refresh();
+
+            updatingWidth = false;
+        });
+
+        heightValue.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (updatingHeight) return;
+
+            try {
+                updatingWidth = true;
+
+                int h = Integer.parseInt(newVal);
+                int w = Math.round(h * 7f / 4f);
+                heightSlider.setValue(h);
+                widthSlider.setValue(w);
+                widthValue.setText(String.valueOf(w));
+                gameCanvas.setCols(w);
+                gameCanvas.setRows(h);
+                gameCanvas.refresh();
+                updatingWidth = false;
+
+            } catch (NumberFormatException ignored) {}
+        });
+
+
+    }
+    public int getWidthValue() {
+        return Integer.parseInt(widthValue.textProperty().toString());
+    }
+    public int getHeightValue() {
+        return Integer.parseInt(heightValue.textProperty().toString());
+    }
+
+
 
     public void loadMain() {
         try { // this is for loading controller drivers
             System.out.println(OnStartup.getOS());
-            if (OnStartup.getOS() == 0){System.load(new File("SDL2.dll").getAbsolutePath());} // fuckin external stuff
+            if (OnStartup.getOS() == 0){System.load(new File("SDL2.dll").getAbsolutePath());} // external stuff
             else if (OnStartup.getOS() == 2){
                 System.out.println("Linux users, make sure to install SDL2 if u want controller support pls :)) ");
             }
@@ -66,27 +173,28 @@ public class MainController {
             stage.setScene(scene);
             stage.setTitle("Antons Maze Game");
             stage.centerOnScreen();
-            stage.show();
+            Platform.runLater(() -> {
+                stage.show();
+            });
+
             Platform.runLater(() -> stage.setMaximized(true));
 
             // load configs from files
-            Config config = Config.getInstance();
+            // Config config = Config.getInstance(); // this doesnt actually matter rn, not implemented
             OnStartup.RunOnStartup(scene); // sets theme based on OS default
             Timer timer = new Timer(timerLabel);
             // Movement handlers
-            handleGenerateNewButtonAction(null); // draws maze on startup
-
-            Player player = new Player(gameCanvas, gameCanvas.getCellSize()/2, gameCanvas.getCellSize()/2);
-            MovementHandler handler = new WASDHandler(gameCanvas, player, scene, hasAccelerationCheckbox);
-            gameCanvas.setMovementHandler(handler);
-            handler.startTimer();
-
-//            CursorHandler.cursorListener(gameCanvas, timer, colorPickerWall);
 
 
-            // make text fields limited on input
-            TextFieldController.makeHexField(seedValue);
-            TextFieldController.makeNumberField(animationSpeedMS);
+            // Player player = new Player(gameCanvas, gameCanvas.getCellSize()/2, gameCanvas.getCellSize()/2);
+            // MovementHandler handler = new WASDHandler(gameCanvas, player, scene, hasAccelerationCheckbox);
+            // gameCanvas.setMovementHandler(handler);
+            // handler.startTimer();
+
+            CursorHandler.cursorListener(gameCanvas, timer, colorPickerWall);
+
+            gameCanvas.setMovementHandler(null);
+
              // TODO: redo music loading to be handled by creating a new MusicPlayer class
             List<String> songs = new ArrayList<>(); // this all does music loading.
 
@@ -221,7 +329,8 @@ public class MainController {
 
         } catch (Exception e) {
             Platform.runLater(() -> {
-                ErrorWindow.show(e);
+                // todo remnove
+               // ErrorWindow.show(e);
             });
         }
     }
@@ -249,10 +358,8 @@ public class MainController {
     @FXML private CheckBox barneyModeCheckbox;
     @FXML private Slider widthSlider;
     @FXML private Slider heightSlider;
-    @FXML private Slider boxSizeSlider;
     @FXML private TextField widthValue;
     @FXML private TextField heightValue;
-    @FXML private TextField boxSizeValue;
 
 
 

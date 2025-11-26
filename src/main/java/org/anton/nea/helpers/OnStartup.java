@@ -52,7 +52,7 @@ public class OnStartup {
             } catch (Exception e) {
                 ErrorWindow.show(e);
             }
-            return false; // default light
+            return false; //  light
         }
 
         else if (os == MACOS) {

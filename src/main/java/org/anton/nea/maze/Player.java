@@ -134,13 +134,13 @@ public class Player {
                     we only need to check index 2 and 4
                     this means from the 49 iterations we did before, we do like 10 ( MUCH MORE EFFICIENT )
                     in addition to my NEW and IMPROVED pixel getter it should be MUCH MORE EFFICIENT ( aka not O(5.5x10^6) )
-                    (which was constant time, but it was just SO FUCKING SLOW)
+                    (which was constant time, but it was just SO SLOW)
                     */
 
 
-                    // TO DO  FIX THIS SHIT SINCE RIGHT NOW ITS O(55MILLION) OPERATIONS PER FRAME
+                    // TODO  FIX THIS SINCE RIGHT NOW ITS O(55MILLION) OPERATIONS PER FRAME
                     // PER       FRAME. @60FPS
-                    // WHAT THE FUCK WAS I COOKING
+                    // WHAT THE HELL WAS I COOKING
                     // Ok to be honest, the actual collision logic is *fine* ish, its just the checkcollisionAt function is HORRIBLY ineficient
                     if (!checkCollisionAt(drawX, drawY)) {
                         gameboard.drawPixel(drawX, drawY, characterDefinition[i][j]);

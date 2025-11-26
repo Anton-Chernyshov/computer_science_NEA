@@ -31,7 +31,7 @@ public class GameBoard extends Canvas {
 
 
     /**
-     * fuckass class that is the bane of my life. JKJK lol
+     * stupid class that is the bane of my life. JKJK lol
      * <p>This class is where the game occurs, its a custom canvas subclass that does my special stuff, because i decided to do this
      * using a class that extends the {@link Canvas} INSTEAD of having some kind of helper or manager class that just works along side it. idk
      * i thought this might look cleaner, idk if it does</p>
@@ -45,11 +45,18 @@ public class GameBoard extends Canvas {
          but then remembered that i was actually loading this using FXML, so i kinda dont need them.. ALSO this makes it easy asf to change stuff so im keeping it yay!!
         */
         // width is 1400, height is 800
-        this.rows =40; // cells //20
+        this.rows = 40; // cells //20
         this.cols = 70;  //35
         this.cellSize = (int) (1400/this.cols); // px //40
         this.cellRepr = new Cell[rows][cols];
 
+    }
+    public void setRows(int rows) {
+        this.rows = rows;
+
+    }
+    public void setCols(int cols) {
+        this.cols = cols;
     }
     private void recalculateCellSize(){
         this.cellSize = (int) (1400/this.cols);
@@ -83,7 +90,7 @@ public class GameBoard extends Canvas {
             }
     }
     /**
-     * will store an array of pixel positions on the canvas, and do an O(1) lookup to check. ooh what a great idea anton you are so fucking clever
+     * will store an array of pixel positions on the canvas, and do an O(1) lookup to check. ooh what a great idea anton you are so  clever
      * haven't implemented the actual "array" yet so im not doing anything yet
      */
     public static Color getMousePixel(double mouseX, double mouseY) {
@@ -117,7 +124,7 @@ public class GameBoard extends Canvas {
 
     }
     public Color getColorAt(int x, int y){
-        // color at the FUCKING X Y PIXEL NOT ROW
+        // color at the  X Y PIXEL NOT ROW
         // stoile this beautiful bit of code from my mouse handler
 
             return gameBoardColorRepr[y][x];
@@ -157,7 +164,6 @@ public class GameBoard extends Canvas {
      */
 
     public void fillGrid(int cellValue, Color2 cellColors) {
-        // Fill cellRepr with 0xF cells
         fillCellRepr(cellValue);
         updateGrid(cellColors);
     }
@@ -168,6 +174,7 @@ public class GameBoard extends Canvas {
      */
     public void updateGrid(Color2 cellColors){
         getGraphicsContext2D().clearRect(0, 0, this.getWidth(), this.getHeight());
+        this.recalculateCellSize();
         this.color = cellColors;
         for (int row = 0; row < this.rows; row++) {
             for (int col = 0; col < this.cols; col++) {
@@ -178,6 +185,10 @@ public class GameBoard extends Canvas {
         updateGameBoardColorRepr();
     }
 
+    public void refresh(){
+        this.recalculateCellSize();
+        this.recalculateCellRepr();
+    }
 
 
     public void drawPixel(int x, int y, Color color){
@@ -198,7 +209,7 @@ public class GameBoard extends Canvas {
     public void drawStartAndEndPoints(Color2 startColor, Color2 endColor) {
         // Im gonna *try* to make this scale, but idk
         this.cellRepr[0][0].draw(getGraphicsContext2D(), startColor);
-        // fuckass statement to get bottom right
+        // dumbaah statement to get bottom right
         this.cellRepr[this.cellRepr.length - 1][this.cellRepr[this.cellRepr.length - 1].length -1].draw(getGraphicsContext2D(), endColor);
     }
 
