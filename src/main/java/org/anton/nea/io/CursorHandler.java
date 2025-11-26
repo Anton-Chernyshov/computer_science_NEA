@@ -43,6 +43,7 @@ public class CursorHandler {
         switch (color.toString()) {
             case "0xff0000ff" -> { // RED (win)
                 timer.stop();
+                timer.HAPPYFACE();
 
             }
 

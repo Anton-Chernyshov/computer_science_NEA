@@ -28,7 +28,9 @@ public class Timer {
             running = true;
         }
     }
-
+    public void HAPPYFACE(){
+        timerLabel.setText("YAY YOU WIN!!! \n YOU DID IT IN: " + getFormattedTime() +"\nYAY!!!");
+    }
     // Stop counting
     public void stop() {
         if (running) {

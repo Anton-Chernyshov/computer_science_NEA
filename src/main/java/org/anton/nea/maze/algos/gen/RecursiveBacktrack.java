@@ -10,7 +10,7 @@ import java.util.Stack;
 public class RecursiveBacktrack extends MazeGenerator {
     @Override
     public void generateMaze(GameBoard gameBoard, long seed) {
-        // Initialize all cells with all walls up (0xF)
+        // init all cells with all walls up (0xF)
         gameBoard.fillCellRepr(0xF);
         Cell[][] cellRepr = gameBoard.getCellRepr();
         int rows = gameBoard.getRows();

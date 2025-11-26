@@ -34,8 +34,6 @@
               AnchorPane.leftAnchor="10.0"
               AnchorPane.rightAnchor="10.0"
               AnchorPane.bottomAnchor="50.0"/>
-
-    <!-- Buttons aligned at bottom center -->
     <HBox spacing="15"
           AnchorPane.bottomAnchor="10.0"
           AnchorPane.leftAnchor="0.0"

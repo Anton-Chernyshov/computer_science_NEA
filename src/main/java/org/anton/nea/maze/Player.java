@@ -74,7 +74,7 @@ public class Player {
      * sets the X of the player, also clamps it to the board dimensions
      * @param x the x coord ??? what did u think it meant silly 😛
      */
-    private void setX(int x) { // barney says he wants to record me havin sex. what a weirdo
+    private void setX(int x) { // barney says he wants to record me doing stuff. what a weirdo
         // and justin leung does too
         double maxWidth = gameboard.getWidth();
         if (x < 0) x = 0;
